@@ -3,9 +3,11 @@
     "name": "liberty",
     "slug": "liberty",
     "version": "1.0.0",
+    "scheme": "com.galaida.liberty",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "sdkVersion": "53.0.0",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -16,6 +18,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.galaida.liberty",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -24,6 +27,13 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "497653a7-d345-47ee-bdba-4e73f17f7ffa"
+      }
+    },
+    "owner": "galaida",
+    "plugins": ["expo-web-browser"]
   }
 }
