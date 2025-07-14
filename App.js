@@ -16,24 +16,12 @@ export default function App() {
 
   React.useEffect(() => {
     if (response?.type === "success") {
-      console.log(response);
-
       (async () => {
         try {
-          const user = await axios.get(
-            "https://www.googleapis.com/oauth2/v3/userinfo",
-            {
-              headers: {
-                Authorization: `Bearer ${response.authentication.accessToken}`,
-              },
-            }
+          const { token } = await googleRegistration(
+            response.authentication.accessToken
           );
-          await googleRegistration({
-            name: user.data.given_name,
-            sername: user.data.family_name,
-            email: user.data.email,
-            googleID: user.data.sub,
-          });
+          console.log(token);
         } catch (err) {
           console.log(err);
         }
