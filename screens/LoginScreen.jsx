@@ -7,6 +7,8 @@ import { getUser } from "../service/API/user";
 import { StyleSheet } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { CommonActions } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/slices";
 
 export const LoginScreen = ({ navigation }) => {
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -15,10 +17,13 @@ export const LoginScreen = ({ navigation }) => {
   });
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
 
   const getUserInfo = async (token) => {
     const data = await getUser(token);
+
     if (data && data.name) {
+      dispatch(setUser(data));
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
