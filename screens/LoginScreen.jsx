@@ -9,6 +9,8 @@ import * as SecureStore from "expo-secure-store";
 import { CommonActions } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices";
+import { globalStyles } from "../styles/global";
+import { getDictionaryThunk } from "../redux/operations";
 
 export const LoginScreen = ({ navigation }) => {
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -21,7 +23,7 @@ export const LoginScreen = ({ navigation }) => {
 
   const getUserInfo = async (token) => {
     const data = await getUser(token);
-
+    dispatch(getDictionaryThunk({ token }));
     if (data && data.name) {
       dispatch(setUser(data));
       navigation.dispatch(
@@ -107,9 +109,7 @@ export const LoginScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   input: {
-    borderWidth: 1,
-    borderColor: "black",
-    width: "100%",
+    ...globalStyles.input,
     marginBottom: 10,
   },
 });

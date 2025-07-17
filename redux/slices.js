@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createDictionaryThunk, getDictionaryThunk } from "./operations";
 
 export const userSlice = createSlice({
   name: "token",
@@ -17,6 +18,44 @@ export const userSlice = createSlice({
       state.user = null;
       state.token = "";
     },
+  },
+});
+
+export const dictionatySlice = createSlice({
+  name: "dictionary",
+  initialState: {
+    loading: false,
+    value: [],
+    error: null,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createDictionaryThunk.pending, (state, action) => {
+      state.error = null;
+      state.loading = true;
+    });
+    builder.addCase(createDictionaryThunk.fulfilled, (state, action) => {
+      state.error = null;
+      state.loading = false;
+      state.value.push(action.payload);
+    });
+    builder.addCase(createDictionaryThunk.rejected, (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    });
+
+    builder.addCase(getDictionaryThunk.pending, (state, action) => {
+      state.error = null;
+      state.loading = true;
+    });
+    builder.addCase(getDictionaryThunk.fulfilled, (state, action) => {
+      state.error = null;
+      state.loading = false;
+      state.value = action.payload;
+    });
+    builder.addCase(getDictionaryThunk.rejected, (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    });
   },
 });
 
