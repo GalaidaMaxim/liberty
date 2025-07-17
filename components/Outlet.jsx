@@ -7,7 +7,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export const Outlet = ({ children, navigation }) => {
   const user = useUser();
-  console.log(user);
 
   const onLogout = async () => {
     const token = SecureStore.getItem("authToken");
@@ -28,12 +27,14 @@ export const Outlet = ({ children, navigation }) => {
   };
   return (
     <SafeAreaView style={{ flex: 1, outlineColor: "green", outlineWidth: 2 }}>
-      <View style={styles.header}>
-        <Text style={styles.name}>{user.name}</Text>
-        <Pressable style={styles.logout} onPressIn={onLogout}>
-          <Text>Logout</Text>
-        </Pressable>
-      </View>
+      {user && (
+        <View style={styles.header}>
+          <Text style={styles.name}>{user.name}</Text>
+          <Pressable style={styles.logout} onPressIn={onLogout}>
+            <Text>Logout</Text>
+          </Pressable>
+        </View>
+      )}
       {children}
     </SafeAreaView>
   );

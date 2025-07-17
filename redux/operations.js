@@ -1,14 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createDictionary, getDictionary } from "../service/API/dictionary";
+import {
+  createDictionary,
+  getDictionary,
+  deleteDictionary,
+} from "../service/API/dictionary";
 
 export const createDictionaryThunk = createAsyncThunk(
   "dictionary/create",
   async ({ name, token }, { rejectWithValue }) => {
     try {
-      console.log(name, token);
-
-      await createDictionary(name, token);
-      return name;
+      const reusult = await createDictionary(name, token);
+      return reusult;
     } catch (err) {
       rejectWithValue(err);
     }
@@ -21,6 +23,18 @@ export const getDictionaryThunk = createAsyncThunk(
     try {
       const result = await getDictionary(token);
       return result;
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);
+
+export const deleteDictionaryThunk = createAsyncThunk(
+  "dictionary/delete",
+  async ({ id, token }, { rejectWithValue }) => {
+    try {
+      const result = await deleteDictionary(id, token);
+      return id;
     } catch (err) {
       rejectWithValue(err);
     }
