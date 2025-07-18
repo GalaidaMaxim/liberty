@@ -8,7 +8,7 @@ import { StyleSheet } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { CommonActions } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/slices";
+import { setUser, enableLoading, disableLoadgin } from "../redux/slices";
 import { globalStyles } from "../styles/global";
 import { getDictionaryThunk } from "../redux/operations";
 
@@ -22,6 +22,7 @@ export const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const getUserInfo = async (token) => {
+    dispatch(enableLoading());
     const data = await getUser(token);
     dispatch(getDictionaryThunk({ token }));
     if (data && data.name) {
@@ -38,6 +39,7 @@ export const LoginScreen = ({ navigation }) => {
   useEffect(() => {
     if (response?.type === "success") {
       (async () => {
+        dispatch(enableLoading());
         try {
           const { token } = await googleRegistration(
             response.authentication.accessToken
@@ -46,21 +48,25 @@ export const LoginScreen = ({ navigation }) => {
         } catch (err) {
           console.log(err);
         }
+        dispatch(disableLoadgin());
       })();
     }
   }, [response]);
 
   useEffect(() => {
     (async () => {
+      dispatch(enableLoading());
       const token = SecureStore.getItem("authToken");
       if (!token) {
         return;
       }
       await getUserInfo(token);
+      dispatch(disableLoadgin());
     })();
   }, []);
 
   const onLogin = async () => {
+    dispatch(enableLoading());
     try {
       const response = await loginWithPasword(email, password);
       if (!response.token) {
@@ -71,6 +77,7 @@ export const LoginScreen = ({ navigation }) => {
     } catch (err) {
       console.log(err);
     }
+    disableLoadgin(disableLoadgin());
   };
 
   return (

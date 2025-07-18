@@ -5,6 +5,21 @@ import {
   deleteDictionaryThunk,
 } from "./operations";
 
+export const loadginSlice = createSlice({
+  name: "loading",
+  initialState: {
+    value: false,
+  },
+  reducers: {
+    enableLoading: (state) => {
+      state.value = true;
+    },
+    disableLoadgin: (state) => {
+      state.value = false;
+    },
+  },
+});
+
 export const userSlice = createSlice({
   name: "token",
   initialState: {
@@ -80,3 +95,4 @@ export const dictionatySlice = createSlice({
 });
 
 export const { setToken, setUser, removeUser } = userSlice.actions;
+export const { enableLoading, disableLoadgin } = loadginSlice.actions;
