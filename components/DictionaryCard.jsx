@@ -1,18 +1,26 @@
 import { Pressable, Text, StyleSheet } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { deleteDictionaryThunk } from "../redux/operations";
+import { deleteDictionaryThunk, getTypeThunk } from "../redux/operations";
 import { useDispatch } from "react-redux";
 import { storageGetToken } from "../service/storage/token";
+import { useNavigation } from "@react-navigation/native";
 
 export const DictionaryCard = ({ dictionary }) => {
   const dispatch = useDispatch();
+  const naviagation = useNavigation();
   const onDelete = () => {
     dispatch(
       deleteDictionaryThunk({ id: dictionary.id, token: storageGetToken() })
     );
   };
+  const onCardPress = () => {
+    dispatch(
+      getTypeThunk({ dictionaryID: dictionary.id, token: storageGetToken() })
+    );
+    naviagation.navigate("Dictionary", { dictionary });
+  };
   return (
-    <Pressable style={styles.card}>
+    <Pressable onPress={onCardPress} style={styles.card}>
       <Text style={styles.title}>{dictionary.name}</Text>
       <Pressable onPress={onDelete} style={styles.deleteButton}>
         <AntDesign name="close" size={24} color="black" />

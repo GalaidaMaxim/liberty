@@ -27,6 +27,7 @@ export const LoginScreen = ({ navigation }) => {
     dispatch(getDictionaryThunk({ token }));
     if (data && data.name) {
       dispatch(setUser(data));
+      dispatch(disableLoadgin());
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -55,13 +56,11 @@ export const LoginScreen = ({ navigation }) => {
 
   useEffect(() => {
     (async () => {
-      dispatch(enableLoading());
       const token = SecureStore.getItem("authToken");
       if (!token) {
         return;
       }
       await getUserInfo(token);
-      dispatch(disableLoadgin());
     })();
   }, []);
 

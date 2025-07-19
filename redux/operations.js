@@ -4,6 +4,7 @@ import {
   getDictionary,
   deleteDictionary,
 } from "../service/API/dictionary";
+import { createType, getTypes } from "../service/API/types";
 
 export const createDictionaryThunk = createAsyncThunk(
   "dictionary/create",
@@ -35,6 +36,30 @@ export const deleteDictionaryThunk = createAsyncThunk(
     try {
       const result = await deleteDictionary(id, token);
       return id;
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);
+
+export const createTypeThunk = createAsyncThunk(
+  "type/create",
+  async ({ name, dictionaryID, token }, { rejectWithValue }) => {
+    try {
+      const reusult = await createType(name, dictionaryID, token);
+      return reusult;
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);
+
+export const getTypeThunk = createAsyncThunk(
+  "type/get",
+  async ({ dictionaryID, token }, { rejectWithValue }) => {
+    try {
+      const result = await getTypes(dictionaryID, token);
+      return result;
     } catch (err) {
       rejectWithValue(err);
     }

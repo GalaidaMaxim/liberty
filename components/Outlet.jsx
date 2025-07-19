@@ -4,9 +4,11 @@ import * as SecureStore from "expo-secure-store";
 import { CommonActions } from "@react-navigation/native";
 import { useUser } from "../redux/selectors";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRoute } from "@react-navigation/native";
 
 export const Outlet = ({ children, navigation }) => {
   const user = useUser();
+  const route = useRoute();
 
   const onLogout = async () => {
     const token = SecureStore.getItem("authToken");
@@ -29,7 +31,11 @@ export const Outlet = ({ children, navigation }) => {
     <SafeAreaView style={{ flex: 1, outlineColor: "green", outlineWidth: 2 }}>
       {user && (
         <View style={styles.header}>
-          <Text style={styles.name}>{user.name}</Text>
+          <Text style={styles.name}>
+            {route.params?.dictionary
+              ? route.params.dictionary.name
+              : user.name}
+          </Text>
           <Pressable style={styles.logout} onPressIn={onLogout}>
             <Text>Logout</Text>
           </Pressable>

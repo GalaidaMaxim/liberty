@@ -3,6 +3,8 @@ import {
   createDictionaryThunk,
   getDictionaryThunk,
   deleteDictionaryThunk,
+  getTypeThunk,
+  createTypeThunk,
 } from "./operations";
 
 export const loadginSlice = createSlice({
@@ -88,6 +90,45 @@ export const dictionatySlice = createSlice({
       state.value = state.value.filter((item) => item.id !== action.payload);
     });
     builder.addCase(deleteDictionaryThunk.rejected, (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    });
+  },
+});
+
+export const typesSlice = createSlice({
+  name: "types",
+  initialState: {
+    loading: false,
+    value: [],
+    error: null,
+  },
+  extraReducers: (builder) => {
+    //createtype
+    builder.addCase(createTypeThunk.pending, (state, action) => {
+      state.error = null;
+      state.loading = true;
+    });
+    builder.addCase(createTypeThunk.fulfilled, (state, action) => {
+      state.error = null;
+      state.loading = false;
+      state.value.push(action.payload);
+    });
+    builder.addCase(createTypeThunk.rejected, (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    });
+    //getType
+    builder.addCase(getTypeThunk.pending, (state, action) => {
+      state.error = null;
+      state.loading = true;
+    });
+    builder.addCase(getTypeThunk.fulfilled, (state, action) => {
+      state.error = null;
+      state.loading = false;
+      state.value = action.payload;
+    });
+    builder.addCase(getTypeThunk.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
     });

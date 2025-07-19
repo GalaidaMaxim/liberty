@@ -2,11 +2,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen } from "./screens/LoginScreen";
 import { MainScreen } from "./screens/Main";
+import { DictionaryScreen } from "./screens/DictionaryScreen";
 import { store } from "./redux/store";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { Loader } from "./components/Loader";
 import { ImageBackground } from "react-native";
+
 const MainStack = createStackNavigator();
 export default function App() {
   return (
@@ -23,6 +25,10 @@ export default function App() {
             >
               <MainStack.Screen name="Login" component={LoginScreen} />
               <MainStack.Screen name="Main" component={MainScreen} />
+              <MainStack.Screen
+                name="Dictionary"
+                component={DictionaryScreen}
+              />
             </MainStack.Navigator>
           </NavigationContainer>
           <Loader />

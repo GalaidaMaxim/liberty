@@ -5,4 +5,9 @@ export const useDictionareis = () =>
   useSelector((state) => state.dictionary.value);
 
 export const useLoading = () =>
-  useSelector((state) => state.dictionary.loading || state.loading.value);
+  useSelector(
+    (state) =>
+      state.dictionary.loading || state.loading.value || state.types.loading
+  );
+
+export const useTypes = () => useSelector((state) => state.types.value);
