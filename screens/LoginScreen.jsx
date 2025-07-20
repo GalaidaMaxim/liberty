@@ -45,7 +45,9 @@ export const LoginScreen = ({ navigation }) => {
           const { token } = await googleRegistration(
             response.authentication.accessToken
           );
-          console.log(token);
+          SecureStore.setItem("authToken", token);
+
+          await getUserInfo(token);
         } catch (err) {
           console.log(err);
         }

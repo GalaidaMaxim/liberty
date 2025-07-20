@@ -4,6 +4,7 @@ import { TouchableHighlight, ScrollView, StyleSheet, Text } from "react-native";
 import { useState } from "react";
 import { AddTypeModal } from "../components/AddTypeModal";
 import { useTypes } from "../redux/selectors";
+import { TypeButtonMenu } from "../components/TypeButtonMenu";
 
 export const DictionaryScreen = () => {
   const [typeModal, setTypeModal] = useState(false);
@@ -25,9 +26,11 @@ export const DictionaryScreen = () => {
           <Text style={styles.buttonText}>Всі</Text>
         </TouchableHighlight>
         {types.map((item) => (
-          <TouchableHighlight key={item.id} style={styles.blueButton}>
-            <Text style={styles.buttonText}>{item.name}</Text>
-          </TouchableHighlight>
+          <TypeButtonMenu key={item.id}>
+            <TouchableHighlight style={styles.blueButton}>
+              <Text style={styles.buttonText}>{item.name}</Text>
+            </TouchableHighlight>
+          </TypeButtonMenu>
         ))}
       </ScrollView>
       <ScrollView style={styles.wordsList}>
