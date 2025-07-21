@@ -17,7 +17,7 @@ export const Loader = () => {
 
 const styles = StyleSheet.create({
   backdrop: {
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

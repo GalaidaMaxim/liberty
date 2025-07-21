@@ -12,10 +12,13 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createDictionaryThunk } from "../redux/operations";
 import * as SecureStore from "expo-secure-store";
+import { useTheme } from "@react-navigation/native";
 
 export const AddDictionaryModal = ({ open = true, setOpen = () => {} }) => {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
+  const theme = useTheme();
+
   const onAddPressed = async () => {
     dispatch(
       createDictionaryThunk({ name, token: SecureStore.getItem("authToken") })
@@ -26,14 +29,24 @@ export const AddDictionaryModal = ({ open = true, setOpen = () => {} }) => {
   return (
     <Modal animationType="fade" visible={open} transparent>
       <Pressable onPress={() => setOpen(false)} style={styles.backdrop}>
-        <Pressable onPress={() => {}} style={styles.modal}>
+        <Pressable
+          onPress={() => {}}
+          style={{ ...styles.modal, backgroundColor: theme.colors.card }}
+        >
           <View>
-            <Text style={styles.title}>Додати словник</Text>
+            <Text style={{ ...styles.title, color: theme.colors.text }}>
+              Додати словник
+            </Text>
             <TextInput
               value={name}
               onChangeText={(text) => setName(text)}
               placeholder="Назва"
-              style={styles.input}
+              style={{
+                ...styles.input,
+                color: theme.colors.text,
+                borderColor: theme.colors.border,
+              }}
+              placeholderTextColor={theme.colors.placeholder}
             />
           </View>
           <Button onPress={onAddPressed} title="Додати" />
@@ -45,13 +58,13 @@ export const AddDictionaryModal = ({ open = true, setOpen = () => {} }) => {
 
 const styles = StyleSheet.create({
   backdrop: {
-    backgroundColor: "rgba(0,0,0,0.3)",
+    backgroundColor: "rgba(0,0,0,0.7)",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   modal: {
-    backgroundColor: "rgb(255, 255, 255)",
+    // backgroundColor: "rgb(255, 255, 255)",
     height: 200,
     width: "90%",
     padding: 20,

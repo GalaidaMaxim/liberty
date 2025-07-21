@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { setUser, enableLoading, disableLoadgin } from "../redux/slices";
 import { globalStyles } from "../styles/global";
 import { getDictionaryThunk } from "../redux/operations";
+import { useTheme } from "@react-navigation/native";
 
 export const LoginScreen = ({ navigation }) => {
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -20,21 +21,27 @@ export const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const getUserInfo = async (token) => {
     dispatch(enableLoading());
-    const data = await getUser(token);
-    dispatch(getDictionaryThunk({ token }));
-    if (data && data.name) {
-      dispatch(setUser(data));
-      dispatch(disableLoadgin());
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "Main" }],
-        })
-      );
+    try {
+      const data = await getUser(token);
+      dispatch(getDictionaryThunk({ token }));
+      if (data && data.name) {
+        dispatch(setUser(data));
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "Main" }],
+          })
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      await SecureStore.deleteItemAsync("authToken");
     }
+    dispatch(disableLoadgin());
   };
 
   useEffect(() => {
@@ -92,14 +99,24 @@ export const LoginScreen = ({ navigation }) => {
       <View style={{ width: "90%" }}>
         <TextInput
           placeholder="email"
-          style={styles.input}
+          style={{
+            ...styles.input,
+            borderColor: theme.colors.border,
+            color: theme.colors.text,
+          }}
+          placeholderTextColor={theme.colors.placeholder}
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
         <TextInput
           secureTextEntry={true}
           placeholder="password"
-          style={styles.input}
+          style={{
+            ...styles.input,
+            borderColor: theme.colors.border,
+            color: theme.colors.text,
+          }}
+          placeholderTextColor={theme.colors.placeholder}
           onChangeText={(text) => setPassword(text)}
         />
         <View style={{ marginBottom: 10 }}>

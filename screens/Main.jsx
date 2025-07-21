@@ -5,10 +5,12 @@ import { AddDictionaryModal } from "../components/AddDictionaryMoad.";
 import { useState } from "react";
 import { DictionaryCard } from "../components/DictionaryCard";
 import { useDictionareis } from "../redux/selectors";
+import { useTheme } from "@react-navigation/native";
 
 export const MainScreen = ({ navigation }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const dictionareis = useDictionareis();
+  const theme = useTheme();
 
   return (
     <Outlet navigation={navigation}>
@@ -22,7 +24,7 @@ export const MainScreen = ({ navigation }) => {
         onPressIn={() => setModalOpen(true)}
         style={styles.aboluteViev}
       >
-        <AntDesign name="pluscircleo" size={50} color="black" />
+        <AntDesign name="pluscircleo" size={50} color={theme.colors.text} />
       </TouchableHighlight>
     </Outlet>
   );
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 60,
     right: 10,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     borderRadius: "50%",
   },
   mainScroll: {

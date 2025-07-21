@@ -5,10 +5,12 @@ import { CommonActions } from "@react-navigation/native";
 import { useUser } from "../redux/selectors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRoute } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 
 export const Outlet = ({ children, navigation }) => {
   const user = useUser();
   const route = useRoute();
+  const theme = useTheme();
 
   const onLogout = async () => {
     const token = SecureStore.getItem("authToken");
@@ -28,16 +30,19 @@ export const Outlet = ({ children, navigation }) => {
     );
   };
   return (
-    <SafeAreaView style={{ flex: 1, outlineColor: "green", outlineWidth: 2 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       {user && (
         <View style={styles.header}>
-          <Text style={styles.name}>
+          <Text style={{ ...styles.name, color: theme.colors.text }}>
             {route.params?.dictionary
               ? route.params.dictionary.name
               : user.name}
           </Text>
-          <Pressable style={styles.logout} onPressIn={onLogout}>
-            <Text>Logout</Text>
+          <Pressable
+            style={{ ...styles.logout, borderColor: theme.colors.border }}
+            onPressIn={onLogout}
+          >
+            <Text style={{ color: theme.colors.text }}>Logout</Text>
           </Pressable>
         </View>
       )}

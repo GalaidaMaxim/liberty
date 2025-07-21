@@ -6,7 +6,7 @@
     "scheme": "com.galaida.liberty",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "sdkVersion": "53.0.0",
     "newArchEnabled": true,
     "splash": {
@@ -15,7 +15,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.galaida.liberty"
     },
     "android": {
       "package": "com.galaida.liberty",
