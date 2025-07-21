@@ -1,4 +1,4 @@
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { NavigationContainer, DarkTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen } from "./screens/LoginScreen";
 import { MainScreen } from "./screens/Main";
@@ -7,11 +7,12 @@ import { store } from "./redux/store";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { Loader } from "./components/Loader";
+import { MenuProvider } from "react-native-popup-menu";
 
 const MyTheme = {
-  ...DefaultTheme,
+  ...DarkTheme,
   colors: {
-    ...DefaultTheme.colors,
+    ...DarkTheme.colors,
     background: "rgb(40, 40, 40)",
     card: "rgb(70, 70, 70)",
     text: "white",
@@ -27,17 +28,22 @@ export default function App() {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
-        <NavigationContainer theme={MyTheme}>
-          <MainStack.Navigator
-            screenOptions={{ headerShown: false }}
-            initialRouteName="Login"
-          >
-            <MainStack.Screen name="Login" component={LoginScreen} />
-            <MainStack.Screen name="Main" component={MainScreen} />
-            <MainStack.Screen name="Dictionary" component={DictionaryScreen} />
-          </MainStack.Navigator>
-        </NavigationContainer>
-        <Loader />
+        <MenuProvider>
+          <NavigationContainer theme={MyTheme}>
+            <MainStack.Navigator
+              screenOptions={{ headerShown: false }}
+              initialRouteName="Login"
+            >
+              <MainStack.Screen name="Login" component={LoginScreen} />
+              <MainStack.Screen name="Main" component={MainScreen} />
+              <MainStack.Screen
+                name="Dictionary"
+                component={DictionaryScreen}
+              />
+            </MainStack.Navigator>
+          </NavigationContainer>
+          <Loader />
+        </MenuProvider>
       </SafeAreaProvider>
     </Provider>
   );

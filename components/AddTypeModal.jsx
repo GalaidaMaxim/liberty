@@ -7,20 +7,20 @@ import {
   View,
   Pressable,
 } from "react-native";
-import { globalStyles } from "../styles/global";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createTypeThunk } from "../redux/operations";
 import * as SecureStore from "expo-secure-store";
 import { useRoute } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 
 export const AddTypeModal = ({ open = true, setOpen = () => {} }) => {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
   const route = useRoute();
-  const onAddPressed = async () => {
-    console.log(route.params.dictionary);
+  const theme = useTheme();
 
+  const onAddPressed = async () => {
     dispatch(
       createTypeThunk({
         name,
@@ -35,14 +35,24 @@ export const AddTypeModal = ({ open = true, setOpen = () => {} }) => {
   return (
     <Modal animationType="fade" visible={open} transparent>
       <Pressable onPress={() => setOpen(false)} style={styles.backdrop}>
-        <Pressable onPress={() => {}} style={styles.modal}>
+        <Pressable
+          onPress={() => {}}
+          style={{ ...styles.modal, backgroundColor: theme.colors.card }}
+        >
           <View>
-            <Text style={styles.title}>Додати категорію</Text>
+            <Text style={{ ...styles.title, color: theme.colors.text }}>
+              Додати категорію
+            </Text>
             <TextInput
               value={name}
               onChangeText={(text) => setName(text)}
               placeholder="Назва"
-              style={styles.input}
+              style={{
+                ...styles.input,
+                borderColor: theme.colors.border,
+                color: theme.colors.text,
+              }}
+              placeholderTextColor={theme.colors.placeholder}
             />
           </View>
           <Button onPress={onAddPressed} title="Додати" />
@@ -60,7 +70,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modal: {
-    backgroundColor: "rgb(255, 255, 255)",
     height: 200,
     width: "90%",
     padding: 20,
@@ -71,7 +80,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   input: {
-    ...globalStyles.input,
     marginTop: 10,
+    borderWidth: 1,
   },
 });

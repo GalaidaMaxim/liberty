@@ -5,10 +5,13 @@ import { useState } from "react";
 import { AddTypeModal } from "../components/AddTypeModal";
 import { useTypes } from "../redux/selectors";
 import { TypeButtonMenu } from "../components/TypeButtonMenu";
+import { buttonBase } from "../styles/global";
+import { useTheme } from "@react-navigation/native";
 
 export const DictionaryScreen = () => {
   const [typeModal, setTypeModal] = useState(false);
   const types = useTypes();
+  const theme = useTheme();
   return (
     <Outlet>
       <ScrollView
@@ -18,19 +21,15 @@ export const DictionaryScreen = () => {
       >
         <TouchableHighlight
           onPress={() => setTypeModal(true)}
-          style={styles.button}
+          style={{ ...styles.button, borderColor: theme.colors.border }}
         >
-          <AntDesign name="plus" size={16} color="black" />
+          <AntDesign name="plus" size={16} color={theme.colors.border} />
         </TouchableHighlight>
         <TouchableHighlight style={styles.blueButton}>
           <Text style={styles.buttonText}>Всі</Text>
         </TouchableHighlight>
         {types.map((item) => (
-          <TypeButtonMenu key={item.id}>
-            <TouchableHighlight style={styles.blueButton}>
-              <Text style={styles.buttonText}>{item.name}</Text>
-            </TouchableHighlight>
-          </TypeButtonMenu>
+          <TypeButtonMenu key={item.id} type={item} />
         ))}
       </ScrollView>
       <ScrollView style={styles.wordsList}>
@@ -41,21 +40,10 @@ export const DictionaryScreen = () => {
   );
 };
 
-const buttonBase = {
-  height: 40,
-  minWidth: 40,
-  paddingLeft: 10,
-  paddingRight: 10,
-  marginRight: 5,
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: 20,
-};
 const styles = StyleSheet.create({
   typeList: { padding: 10, flexDirection: "row", maxHeight: 60 },
   button: {
     ...buttonBase,
-    borderBlockColor: "black",
     borderWidth: 1,
   },
   blueButton: {
