@@ -6,6 +6,7 @@ import {
   getTypeThunk,
   createTypeThunk,
   deleteTypeThunk,
+  changeTypeThunk,
 } from "./operations";
 
 export const loadginSlice = createSlice({
@@ -146,6 +147,24 @@ export const typesSlice = createSlice({
     });
 
     builder.addCase(deleteTypeThunk.rejected, (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    });
+
+    //changeType
+    builder.addCase(changeTypeThunk.pending, (state, action) => {
+      state.error = null;
+      state.loading = true;
+    });
+    builder.addCase(changeTypeThunk.fulfilled, (state, action) => {
+      state.error = null;
+      const index = state.value.findIndex(
+        (item) => (item.id = action.payload.id)
+      );
+      state.value[index] = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(changeTypeThunk.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
     });

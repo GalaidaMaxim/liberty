@@ -34,3 +34,19 @@ export const deleteType = async (id, token) => {
   });
   return result;
 };
+
+export const changeType = async (id, name, token) => {
+  const result = await axios.patch(
+    "/types",
+    {
+      id,
+      name,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return result.data;
+};
