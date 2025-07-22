@@ -13,6 +13,7 @@ export const DictionaryScreen = () => {
   const [typeModal, setTypeModal] = useState(false);
   const [editTypeModal, setEditTypeModal] = useState(false);
   const [editableType, setEditableType] = useState({});
+  const [selectedType, setSelectedType] = useState(null);
 
   const types = useTypes();
   const theme = useTheme();
@@ -35,7 +36,13 @@ export const DictionaryScreen = () => {
         >
           <AntDesign name="plus" size={16} color={theme.colors.border} />
         </TouchableHighlight>
-        <TouchableHighlight style={styles.blueButton}>
+        <TouchableHighlight
+          style={{
+            ...styles.blueButton,
+            ...(selectedType ? {} : styles.highlited),
+          }}
+          onPress={() => setSelectedType(null)}
+        >
           <Text style={styles.buttonText}>Всі</Text>
         </TouchableHighlight>
         {types.map((item) => (
@@ -43,6 +50,9 @@ export const DictionaryScreen = () => {
             key={item.id}
             type={item}
             openEditModal={openEditTypeModal}
+            styles={styles}
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
           />
         ))}
       </ScrollView>
@@ -62,6 +72,7 @@ export const DictionaryScreen = () => {
 
 const styles = StyleSheet.create({
   typeList: { padding: 10, flexDirection: "row", maxHeight: 60 },
+
   button: {
     ...buttonBase,
     borderWidth: 1,
@@ -76,5 +87,9 @@ const styles = StyleSheet.create({
   },
   wordsList: {
     flex: 1,
+  },
+  highlited: {
+    outlineColor: "white",
+    outlineWidth: 1,
   },
 });

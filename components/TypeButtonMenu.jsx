@@ -13,7 +13,13 @@ import { useDispatch } from "react-redux";
 import { deleteTypeThunk } from "../redux/operations";
 import { storageGetToken } from "../service/storage/token";
 
-export const TypeButtonMenu = ({ type, openEditModal = () => {} }) => {
+export const TypeButtonMenu = ({
+  type,
+  openEditModal = () => {},
+  styles,
+  selectedType,
+  setSelectedType,
+}) => {
   const ref = useRef(null);
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -29,7 +35,14 @@ export const TypeButtonMenu = ({ type, openEditModal = () => {} }) => {
     <>
       <Menu ref={ref}>
         <MenuTrigger customStyles={{ TriggerTouchableComponent: View }}>
-          <TouchableHighlight onLongPress={openMenu} style={styles.blueButton}>
+          <TouchableHighlight
+            onPress={() => setSelectedType(type.id)}
+            onLongPress={openMenu}
+            style={{
+              ...styles.blueButton,
+              ...(type.id !== selectedType ? {} : styles.highlited),
+            }}
+          >
             <Text style={styles.buttonText}>{type.name}</Text>
           </TouchableHighlight>
         </MenuTrigger>
@@ -60,23 +73,3 @@ export const TypeButtonMenu = ({ type, openEditModal = () => {} }) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  typeList: { padding: 10, flexDirection: "row", maxHeight: 60 },
-  button: {
-    ...buttonBase,
-    borderBlockColor: "black",
-    borderWidth: 1,
-  },
-  blueButton: {
-    ...buttonBase,
-    backgroundColor: "rgb(46, 129, 255)",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 18,
-  },
-  wordsList: {
-    flex: 1,
-  },
-});
