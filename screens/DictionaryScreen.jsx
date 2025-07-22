@@ -3,6 +3,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { TouchableHighlight, ScrollView, StyleSheet, Text } from "react-native";
 import { useState } from "react";
 import { AddTypeModal } from "../components/AddTypeModal";
+import { EditTypeModal } from "../components/EditTypeModal";
 import { useTypes } from "../redux/selectors";
 import { TypeButtonMenu } from "../components/TypeButtonMenu";
 import { buttonBase } from "../styles/global";
@@ -10,8 +11,17 @@ import { useTheme } from "@react-navigation/native";
 
 export const DictionaryScreen = () => {
   const [typeModal, setTypeModal] = useState(false);
+  const [editTypeModal, setEditTypeModal] = useState(false);
+  const [editableType, setEditableType] = useState({});
+
   const types = useTypes();
   const theme = useTheme();
+
+  const openEditTypeModal = (type) => {
+    setEditableType(type);
+    setEditTypeModal(true);
+  };
+
   return (
     <Outlet>
       <ScrollView
@@ -29,13 +39,23 @@ export const DictionaryScreen = () => {
           <Text style={styles.buttonText}>Всі</Text>
         </TouchableHighlight>
         {types.map((item) => (
-          <TypeButtonMenu key={item.id} type={item} />
+          <TypeButtonMenu
+            key={item.id}
+            type={item}
+            openEditModal={openEditTypeModal}
+          />
         ))}
       </ScrollView>
       <ScrollView style={styles.wordsList}>
         <Text>words</Text>
       </ScrollView>
       <AddTypeModal open={typeModal} setOpen={setTypeModal} />
+      <EditTypeModal
+        open={editTypeModal}
+        setOpen={setEditTypeModal}
+        type={editableType}
+        setType={setEditableType}
+      />
     </Outlet>
   );
 };

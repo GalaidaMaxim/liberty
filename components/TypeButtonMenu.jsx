@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { deleteTypeThunk } from "../redux/operations";
 import { storageGetToken } from "../service/storage/token";
 
-export const TypeButtonMenu = ({ type }) => {
+export const TypeButtonMenu = ({ type, openEditModal = () => {} }) => {
   const ref = useRef(null);
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ export const TypeButtonMenu = ({ type }) => {
         >
           <MenuOption
             text="Редагувати"
-            onSelect={() => alert("Копировать")}
+            onSelect={() => openEditModal(type)}
           ></MenuOption>
           <MenuOption text="Видалити" onSelect={onDelete}></MenuOption>
         </MenuOptions>

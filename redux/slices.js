@@ -159,9 +159,9 @@ export const typesSlice = createSlice({
     builder.addCase(changeTypeThunk.fulfilled, (state, action) => {
       state.error = null;
       const index = state.value.findIndex(
-        (item) => (item.id = action.payload.id)
+        (item) => item.id === action.payload.id
       );
-      state.value[index] = action.payload;
+      state.value.splice(index, 1, action.payload);
       state.loading = false;
     });
     builder.addCase(changeTypeThunk.rejected, (state, action) => {
