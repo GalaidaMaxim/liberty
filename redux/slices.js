@@ -124,6 +124,7 @@ export const typesSlice = createSlice({
     builder.addCase(getTypeThunk.pending, (state, action) => {
       state.error = null;
       state.loading = true;
+      state.value = [];
     });
     builder.addCase(getTypeThunk.fulfilled, (state, action) => {
       state.error = null;

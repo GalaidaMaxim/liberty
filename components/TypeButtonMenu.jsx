@@ -1,7 +1,5 @@
-import { MenuView } from "@react-native-menu/menu";
 import { useRef } from "react";
-import { TouchableHighlight, StyleSheet, Text, View } from "react-native";
-import { buttonBase } from "../styles/global";
+import { TouchableHighlight, Text, View } from "react-native";
 import {
   Menu,
   MenuOptions,
