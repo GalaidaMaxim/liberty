@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { useTheme } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 import { useTypes } from "../redux/selectors";
@@ -27,6 +27,7 @@ export const AddWordModal = ({ open = true, setOpen = () => {}, setWords }) => {
   const types = useTypes();
 
   const route = useRoute();
+  const navigation = useNavigation();
 
   const typesList = [{ id: -1, name: "Без типу" }, ...types];
 
@@ -40,18 +41,18 @@ export const AddWordModal = ({ open = true, setOpen = () => {}, setWords }) => {
         dictionaryID: route.params.dictionary.id,
         token: storageGetToken(),
       });
-      setWords((prewState) => {
-        return [...prewState, result].sort((a, b) =>
-          a.word > b.word ? 1 : -1
-        );
+      setOpen(false);
+      navigation.navigate("Word", {
+        dictionary: route.params.dictionary,
+        word: result,
       });
+
       setName("");
       setTranslation("");
     } catch (err) {
       console.log(err);
     }
     dispatch(disableLoadgin());
-    setOpen(false);
   };
   return (
     <Modal animationType="fade" visible={open} transparent>

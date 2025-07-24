@@ -40,3 +40,11 @@ export const createWord = async ({
   );
   return result.data;
 };
+
+export const editWord = async (id, body = {}, token) => {
+  const result = await axios.patch("/words", body, {
+    params: { id },
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return result.data;
+};

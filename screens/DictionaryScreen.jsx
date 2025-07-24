@@ -44,7 +44,7 @@ export const DictionaryScreen = () => {
       }
       dispatch(disableLoadgin());
     })();
-  }, [selectedType]);
+  }, [selectedType, route]);
 
   const openEditTypeModal = (type) => {
     setEditableType(type);
