@@ -1,10 +1,19 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useTheme } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
 export const WordsCard = ({ word }) => {
   const theme = useTheme();
+  const route = useRoute();
+  const navigation = useNavigation();
+
+  const onPress = () => {
+    navigation.navigate("Word", { dictionary: route.params.dictionary, word });
+  };
+
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
       style={{
         ...styles.card,
         backgroundColor: theme.colors.card,
@@ -17,7 +26,7 @@ export const WordsCard = ({ word }) => {
       <Text style={{ color: theme.colors.text, flex: 1 }}>
         {word.translation}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

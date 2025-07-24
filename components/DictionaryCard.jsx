@@ -27,7 +27,6 @@ export const DictionaryCard = ({ dictionary }) => {
       style={{
         ...styles.card,
         borderColor: theme.colors.border,
-        // boxShadow: theme.shadow,
         backgroundColor: theme.colors.card,
       }}
     >

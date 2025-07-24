@@ -58,6 +58,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: 10,
     paddingRight: 10,
+    paddingBottom: 5,
+    boxShadow: "0px 10px 10px rgba(0, 0, 0,0.1)",
   },
   name: {
     fontSize: 24,

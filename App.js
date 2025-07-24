@@ -2,6 +2,7 @@ import { NavigationContainer, DarkTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen } from "./screens/LoginScreen";
 import { MainScreen } from "./screens/Main";
+import { WordScreen } from "./screens/WordScreen";
 import { DictionaryScreen } from "./screens/DictionaryScreen";
 import { store } from "./redux/store";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -36,6 +37,7 @@ export default function App() {
             >
               <MainStack.Screen name="Login" component={LoginScreen} />
               <MainStack.Screen name="Main" component={MainScreen} />
+              <MainStack.Screen name="Word" component={WordScreen} />
               <MainStack.Screen
                 name="Dictionary"
                 component={DictionaryScreen}
