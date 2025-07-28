@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Keyboard,
   Pressable,
+  Button,
+  ScrollView,
 } from "react-native";
 import { editWord } from "../service/API/words";
 import { enableLoading, disableLoadgin } from "../redux/slices";
@@ -15,17 +17,21 @@ import { useTheme } from "@react-navigation/native";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { storageGetToken } from "../service/storage/token";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { AddNoteModal } from "../components/AddNoteModal";
+import { getNotes } from "../service/API/notes";
+import { Note } from "../components/Note";
 
 export const WordScreen = ({ navigation }) => {
   const route = useRoute();
   const theme = useTheme();
+
   const worRef = useRef(null);
   const translationRef = useRef(null);
-  const [wordText, setWordText] = useState("");
-  const [translationText, setTranslationText] = useState("");
   const [wordReduction, setWordReduction] = useState(false);
   const [translationReduction, setTranslationReduction] = useState(false);
+  const [notes, setNotes] = useState([]);
+
+  const [nodeModal, setNoteModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -40,21 +46,24 @@ export const WordScreen = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    if (wordReduction) {
-      setWordText(route.params.word.word);
-      worRef.current.focus();
-    }
-    if (translationReduction) {
-      setTranslationText(route.params.word.translation);
-      translationRef.current.focus();
-    }
-  }, [wordReduction, translationReduction]);
+    (async () => {
+      dispatch(enableLoading());
+      try {
+        const result = await getNotes(route.params.word.id, storageGetToken());
+        setNotes(result);
+      } catch (err) {
+        console.log(err);
+      }
+      dispatch(disableLoadgin());
+    })();
+  }, []);
+
   const onWordEdit = async () => {
     dispatch(enableLoading());
     try {
       const result = await editWord(
         route.params.word.id,
-        { word: wordText },
+        { word: route.params.word.word },
         storageGetToken()
       );
       navigation.setParams({
@@ -74,7 +83,7 @@ export const WordScreen = ({ navigation }) => {
       const result = await editWord(
         route.params.word.id,
 
-        { translation: translationText },
+        { translation: route.params.word.translation },
         storageGetToken()
       );
       navigation.setParams({
@@ -89,57 +98,88 @@ export const WordScreen = ({ navigation }) => {
   };
   return (
     <Outlet>
-      <Pressable
-        onLongPress={() => setWordReduction(true)}
-        style={{
-          ...styles.outlied,
-          ...styles.wordView,
-          borderBottomColor: theme.colors.border,
-        }}
-      >
-        {wordReduction ? (
+      <ScrollView>
+        <Pressable
+          onLongPress={() => {
+            setWordReduction(true);
+            setTranslationReduction(false);
+            setTimeout(() => {
+              worRef.current.focus();
+            }, 60);
+          }}
+          style={{
+            ...styles.outlied,
+            ...styles.wordView,
+            borderBottomColor: theme.colors.border,
+          }}
+        >
           <TextInput
+            editable={wordReduction}
             ref={worRef}
             onSubmitEditing={onWordEdit}
-            value={wordText}
-            onChangeText={(text) => setWordText(text)}
+            value={route.params.word.word}
+            onChangeText={(text) =>
+              navigation.setParams({
+                dictionary: route.params.dictionary,
+                word: { ...route.params.word, word: text },
+              })
+            }
             style={{
               ...styles.wordTitle,
               color: theme.colors.text,
             }}
           />
-        ) : (
-          <Text
-            style={{
-              ...styles.wordTitle,
-              color: theme.colors.text,
-            }}
-          >
-            {route.params.word.word}
-          </Text>
-        )}
-      </Pressable>
-      <Pressable
-        onLongPress={() => setTranslationReduction(true)}
-        style={{ ...styles.outlied, ...styles.translationView }}
-      >
-        {translationReduction ? (
+        </Pressable>
+        <Pressable
+          onLongPress={() => {
+            setWordReduction(false);
+            setTranslationReduction(true);
+            setTimeout(() => {
+              translationRef.current.focus();
+            }, 60);
+          }}
+          style={{ ...styles.outlied, ...styles.translationView }}
+        >
           <TextInput
+            editable={translationReduction}
             ref={translationRef}
             onSubmitEditing={onTranslationEdit}
-            value={translationText}
-            onChangeText={(text) => setTranslationText(text)}
+            value={route.params.word.translation}
+            onChangeText={(text) =>
+              navigation.setParams({
+                dictionary: route.params.dictionary,
+                word: { ...route.params.word, translation: text },
+              })
+            }
             style={{
               ...styles.translation,
               color: theme.colors.text,
             }}
           />
-        ) : (
-          <Text style={{ ...styles.translation, color: theme.colors.text }}>
-            {route.params.word.translation}
-          </Text>
-        )}
-      </Pressable>
+        </Pressable>
+        <View
+          style={{
+            ...styles.notesView,
+            borderBottomColor: theme.colors.border,
+          }}
+        >
+          <Button onPress={() => setNoteModal(true)} title="Додати нотаток" />
+          {notes.length === 0 ? (
+            <View style={styles.noNotesView}>
+              <Text style={styles.noNotesText}>Немає нотатків</Text>
+            </View>
+          ) : (
+            notes.map((item) => (
+              <Note setNotes={setNotes} noteInfo={item} key={item.id} />
+            ))
+          )}
+        </View>
+      </ScrollView>
+      <AddNoteModal
+        open={nodeModal}
+        setOpen={setNoteModal}
+        addNote={setNotes}
+      />
     </Outlet>
   );
 };
@@ -173,5 +213,23 @@ const styles = StyleSheet.create({
   outlied: {
     outlineColor: "red",
     // outlineWidth: 1,
+  },
+  notesView: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 20,
+    marginTop: 20,
+    borderBottomWidth: 1,
+  },
+  noNotesView: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 100,
+  },
+  noNotesText: {
+    fontSize: 40,
+    fontWeight: 100,
+    color: "#a7a7a76c",
+    fontStyle: "italic",
   },
 });

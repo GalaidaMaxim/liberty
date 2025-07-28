@@ -28,6 +28,7 @@ export const TypeButtonMenu = ({
 
   const onDelete = () => {
     dispatch(deleteTypeThunk({ id: type.id, token: storageGetToken() }));
+    setSelectedType(-1);
   };
   return (
     <>

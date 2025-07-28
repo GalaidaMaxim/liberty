@@ -15,6 +15,8 @@ import { enableLoading, disableLoadgin } from "../redux/slices";
 import { storageGetToken } from "../service/storage/token";
 import { WordsCard } from "../components/WordsCard";
 import { useRoute } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 export const DictionaryScreen = () => {
   const [typeModal, setTypeModal] = useState(false);
@@ -29,22 +31,26 @@ export const DictionaryScreen = () => {
   const dispatch = useDispatch();
   const route = useRoute();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        dispatch(enableLoading());
-        const words = await getWords({
-          token: storageGetToken(),
-          dictionaryID: route.params.dictionary.id,
-          typeID: selectedType === -1 ? undefined : selectedType,
-        });
-        setWords(words);
-      } catch (err) {
-        console.log(err);
-      }
-      dispatch(disableLoadgin());
-    })();
-  }, [selectedType, route]);
+  const updateWords = useCallback(async () => {
+    try {
+      dispatch(enableLoading());
+      const words = await getWords({
+        token: storageGetToken(),
+        dictionaryID: route.params.dictionary.id,
+        typeID: selectedType === -1 ? undefined : selectedType,
+      });
+      setWords(words);
+    } catch (err) {
+      console.log(err);
+    }
+    dispatch(disableLoadgin());
+  }, [selectedType]);
+
+  useFocusEffect(
+    useCallback(() => {
+      updateWords();
+    }, [updateWords])
+  );
 
   const openEditTypeModal = (type) => {
     setEditableType(type);

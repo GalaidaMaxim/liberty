@@ -90,9 +90,7 @@ export const AddWordModal = ({ open = true, setOpen = () => {}, setWords }) => {
             <View
               style={{
                 ...styles.picker,
-                height: 45,
-                justifyContent: "center",
-                marginTop: 10,
+
                 borderColor: theme.colors.border,
               }}
             >
@@ -143,5 +141,8 @@ const styles = StyleSheet.create({
   },
   picker: {
     borderWidth: 1,
+    height: 45,
+    justifyContent: "center",
+    marginTop: 10,
   },
 });
