@@ -10,9 +10,9 @@ import {
 import { globalStyles } from "../styles/global";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { changeTypeThunk } from "../redux/operations";
-import * as SecureStore from "expo-secure-store";
 import { useTheme } from "@react-navigation/native";
+import { storageGetToken } from "../service/storage/token";
+import { enableLoading, disableLoadgin } from "../redux/slices";
 
 export const EditNoteModal = ({
   open = true,

@@ -36,7 +36,7 @@ export const Note = ({ noteInfo, setNotes }) => {
     <Menu ref={ref}>
       <MenuTrigger customStyles={{ TriggerTouchableComponent: View }}>
         <TouchableOpacity
-          onPress={openMenu}
+          onLongPress={openMenu}
           style={{ ...styles.block, borderColor: theme.colors.border }}
         >
           <Text style={{ ...styles.text, color: theme.colors.text }}>
