@@ -20,6 +20,7 @@ import { storageGetToken } from "../service/storage/token";
 import { AddNoteModal } from "../components/AddNoteModal";
 import { getNotes } from "../service/API/notes";
 import { Note } from "../components/Note";
+import { EditNoteModal } from "../components/EditNoteModal";
 
 export const WordScreen = ({ navigation }) => {
   const route = useRoute();
@@ -30,6 +31,7 @@ export const WordScreen = ({ navigation }) => {
   const [wordReduction, setWordReduction] = useState(false);
   const [translationReduction, setTranslationReduction] = useState(false);
   const [notes, setNotes] = useState([]);
+  const [noteToEdit, setNoteToEdit] = useState(null);
 
   const [nodeModal, setNoteModal] = useState(false);
 
@@ -96,6 +98,7 @@ export const WordScreen = ({ navigation }) => {
     dispatch(disableLoadgin());
     setWordReduction(false);
   };
+
   return (
     <Outlet>
       <ScrollView>
@@ -170,7 +173,12 @@ export const WordScreen = ({ navigation }) => {
             </View>
           ) : (
             notes.map((item) => (
-              <Note setNotes={setNotes} noteInfo={item} key={item.id} />
+              <Note
+                setNotes={setNotes}
+                noteInfo={item}
+                key={item.id}
+                setNoteToEdit={setNoteToEdit}
+              />
             ))
           )}
         </View>
@@ -179,6 +187,11 @@ export const WordScreen = ({ navigation }) => {
         open={nodeModal}
         setOpen={setNoteModal}
         addNote={setNotes}
+      />
+      <EditNoteModal
+        open={noteToEdit}
+        setOpen={setNoteToEdit}
+        setNotes={setNotes}
       />
     </Outlet>
   );

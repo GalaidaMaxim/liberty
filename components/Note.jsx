@@ -12,13 +12,17 @@ import { useDispatch } from "react-redux";
 import { enableLoading, disableLoadgin } from "../redux/slices";
 import { storageGetToken } from "../service/storage/token";
 
-export const Note = ({ noteInfo, setNotes }) => {
+export const Note = ({ noteInfo, setNotes, setNoteToEdit }) => {
   const theme = useTheme();
   const ref = useRef(null);
   const dispatch = useDispatch();
 
   const openMenu = () => {
     ref.current?.open();
+  };
+
+  const onEdit = () => {
+    setNoteToEdit(noteInfo);
   };
 
   const onDelete = async () => {
@@ -61,7 +65,7 @@ export const Note = ({ noteInfo, setNotes }) => {
           },
         }}
       >
-        <MenuOption onSelect={() => {}} text="Редагувати"></MenuOption>
+        <MenuOption onSelect={onEdit} text="Редагувати"></MenuOption>
         <MenuOption onSelect={onDelete} text="Видалити"></MenuOption>
       </MenuOptions>
     </Menu>

@@ -13,31 +13,41 @@ import { useDispatch } from "react-redux";
 import { useTheme } from "@react-navigation/native";
 import { storageGetToken } from "../service/storage/token";
 import { enableLoading, disableLoadgin } from "../redux/slices";
+import { editNote } from "../service/API/notes";
 
-export const EditNoteModal = ({
-  open = true,
-  setOpen = () => {},
-  note,
-  setNote,
-}) => {
-  const [name, setName] = useState(type.name);
+export const EditNoteModal = ({ open, setOpen = () => {}, setNotes }) => {
+  const [name, setName] = useState("");
   const dispatch = useDispatch();
   const theme = useTheme();
 
   useEffect(() => {
-    setName(note.text);
+    if (!open) {
+      return;
+    }
+    setName(open.text);
   }, [open]);
 
   const onAddPressed = async () => {
-    const { id } = note;
-
-    setType({});
-    setOpen(false);
+    const { id } = open;
+    dispatch(enableLoading());
+    try {
+      const result = await editNote(id, name, storageGetToken());
+      setNotes((prev) => {
+        const arr = [...prev];
+        const index = arr.findIndex((item) => item.id === open.id);
+        arr.splice(index, 1, result);
+        return arr;
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    dispatch(disableLoadgin());
+    setOpen(null);
   };
 
   return (
-    <Modal animationType="fade" visible={open} transparent>
-      <Pressable onPress={() => setOpen(false)} style={styles.backdrop}>
+    <Modal animationType="fade" visible={open ? true : false} transparent>
+      <Pressable onPress={() => setOpen(null)} style={styles.backdrop}>
         <Pressable
           onPress={() => {}}
           style={{ ...styles.modal, backgroundColor: theme.colors.card }}
@@ -47,6 +57,7 @@ export const EditNoteModal = ({
               Редагувати нотатку
             </Text>
             <TextInput
+              multiline={true}
               value={name}
               onChangeText={(text) => setName(text)}
               style={{
@@ -66,13 +77,13 @@ export const EditNoteModal = ({
 
 const styles = StyleSheet.create({
   backdrop: {
-    backgroundColor: "rgba(0,0,0,0.7)",
+    backgroundColor: "rgba(0,0,0,0.3)",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   modal: {
-    height: 200,
+    height: 350,
     width: "90%",
     padding: 20,
     borderRadius: 10,
@@ -82,7 +93,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   input: {
-    ...globalStyles.input,
     marginTop: 10,
+    borderWidth: 1,
+    height: 200,
+    verticalAlign: "top",
   },
 });

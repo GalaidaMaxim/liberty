@@ -36,3 +36,17 @@ export const deleteNote = async (id, token) => {
   });
   return result.data;
 };
+
+export const editNote = async (id, text, token) => {
+  const result = await axios.patch(
+    "/notes",
+    { text },
+    {
+      params: { id },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return result.data;
+};
