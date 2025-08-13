@@ -2,13 +2,17 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
-export const WordsCard = ({ word }) => {
+export const WordsCard = ({ word, words }) => {
   const theme = useTheme();
   const route = useRoute();
   const navigation = useNavigation();
 
   const onPress = () => {
-    navigation.navigate("Word", { dictionary: route.params.dictionary, word });
+    navigation.navigate("Word", {
+      dictionary: route.params.dictionary,
+      word,
+      words,
+    });
   };
 
   return (

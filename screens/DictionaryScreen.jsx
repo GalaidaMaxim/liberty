@@ -37,14 +37,13 @@ export const DictionaryScreen = () => {
       const words = await getWords({
         token: storageGetToken(),
         dictionaryID: route.params.dictionary.id,
-        typeID: selectedType === -1 ? undefined : selectedType,
       });
       setWords(words);
     } catch (err) {
       console.log(err);
     }
     dispatch(disableLoadgin());
-  }, [selectedType]);
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -91,9 +90,16 @@ export const DictionaryScreen = () => {
         ))}
       </ScrollView>
       <ScrollView style={styles.wordsList}>
-        {words.map((item) => (
-          <WordsCard key={item.id} word={item} />
-        ))}
+        {words
+          .filter((item) => {
+            if (!selectedType) {
+              return item;
+            }
+            return item.type_id === selectedType;
+          })
+          .map((item) => (
+            <WordsCard key={item.id} word={item} words={words} />
+          ))}
       </ScrollView>
       <TouchableHighlight
         onPressIn={() => setWordModal(true)}

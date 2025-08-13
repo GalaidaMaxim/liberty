@@ -10,6 +10,7 @@ import {
   Button,
   ScrollView,
 } from "react-native";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import { editWord } from "../service/API/words";
 import { enableLoading, disableLoadgin } from "../redux/slices";
 import { useRoute } from "@react-navigation/native";
@@ -21,6 +22,9 @@ import { AddNoteModal } from "../components/AddNoteModal";
 import { getNotes } from "../service/API/notes";
 import { Note } from "../components/Note";
 import { EditNoteModal } from "../components/EditNoteModal";
+import { buttonBase } from "../styles/global";
+import { AddSynonymModal } from "../components/AddSynonymModal";
+import { getSynonyms } from "../service/API/synonyms";
 
 export const WordScreen = ({ navigation }) => {
   const route = useRoute();
@@ -32,6 +36,8 @@ export const WordScreen = ({ navigation }) => {
   const [translationReduction, setTranslationReduction] = useState(false);
   const [notes, setNotes] = useState([]);
   const [noteToEdit, setNoteToEdit] = useState(null);
+  const [synonymModal, setSynonymModal] = useState(false);
+  const [synonyms, setSynonyms] = useState([]);
 
   const [nodeModal, setNoteModal] = useState(false);
 
@@ -52,13 +58,15 @@ export const WordScreen = ({ navigation }) => {
       dispatch(enableLoading());
       try {
         const result = await getNotes(route.params.word.id, storageGetToken());
+        const syn = await getSynonyms(route.params.word.id, storageGetToken());
         setNotes(result);
+        setSynonyms(syn);
       } catch (err) {
         console.log(err);
       }
       dispatch(disableLoadgin());
     })();
-  }, []);
+  }, [route.params]);
 
   const onWordEdit = async () => {
     dispatch(enableLoading());
@@ -97,6 +105,14 @@ export const WordScreen = ({ navigation }) => {
     }
     dispatch(disableLoadgin());
     setWordReduction(false);
+  };
+
+  const onSynonymPressed = (word) => {
+    navigation.push("Word", {
+      dictionary: route.params.dictionary,
+      word,
+      words: route.params.words,
+    });
   };
 
   return (
@@ -182,6 +198,38 @@ export const WordScreen = ({ navigation }) => {
             ))
           )}
         </View>
+        <View style={{ ...styles.synonymBlock }}>
+          <Text style={{ ...styles.synonymTytle, color: theme.colors.text }}>
+            Синоніми
+          </Text>
+          <View style={{ ...styles.synonymButtonBlock }}>
+            <TouchableOpacity onPress={() => setSynonymModal(true)}>
+              <View
+                style={{
+                  ...styles.addSynonymButton,
+                  borderColor: theme.colors.border,
+                }}
+              >
+                <AntDesign name="plus" size={16} color={theme.colors.border} />
+              </View>
+            </TouchableOpacity>
+            {synonyms.map((item) => (
+              <TouchableOpacity
+                onPress={() => onSynonymPressed(item)}
+                key={item.id}
+              >
+                <View
+                  style={{
+                    ...styles.addSynonymButton,
+                    borderColor: theme.colors.border,
+                  }}
+                >
+                  <Text style={{ color: theme.colors.text }}>{item.word}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
       </ScrollView>
       <AddNoteModal
         open={nodeModal}
@@ -192,6 +240,12 @@ export const WordScreen = ({ navigation }) => {
         open={noteToEdit}
         setOpen={setNoteToEdit}
         setNotes={setNotes}
+      />
+      <AddSynonymModal
+        open={synonymModal}
+        setOpen={setSynonymModal}
+        synonyms={synonyms}
+        setSynonyms={setSynonyms}
       />
     </Outlet>
   );
@@ -244,5 +298,22 @@ const styles = StyleSheet.create({
     fontWeight: 100,
     color: "#a7a7a76c",
     fontStyle: "italic",
+  },
+  synonymBlock: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 20,
+    marginTop: 20,
+  },
+  synonymButtonBlock: {
+    marginTop: 20,
+    flexDirection: "row",
+  },
+  synonymTytle: {
+    fontSize: 20,
+  },
+  addSynonymButton: {
+    ...buttonBase,
+    borderWidth: 1,
   },
 });
