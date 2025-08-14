@@ -25,6 +25,8 @@ import { EditNoteModal } from "../components/EditNoteModal";
 import { buttonBase } from "../styles/global";
 import { AddSynonymModal } from "../components/AddSynonymModal";
 import { getSynonyms } from "../service/API/synonyms";
+import { SynonymButton } from "../components/SynonymButton";
+import { deleteSynonym } from "../service/API/synonyms";
 
 export const WordScreen = ({ navigation }) => {
   const route = useRoute();
@@ -113,6 +115,17 @@ export const WordScreen = ({ navigation }) => {
       word,
       words: route.params.words,
     });
+  };
+
+  const onDeleteSynonym = async (synonymID) => {
+    dispatch(enableLoading());
+    try {
+      await deleteSynonym(route.params.word.id, synonymID, storageGetToken());
+      setSynonyms((prev) => prev.filter((item) => item.id !== synonymID));
+    } catch (err) {
+      console.log(err);
+    }
+    dispatch(disableLoadgin());
   };
 
   return (
@@ -214,19 +227,12 @@ export const WordScreen = ({ navigation }) => {
               </View>
             </TouchableOpacity>
             {synonyms.map((item) => (
-              <TouchableOpacity
-                onPress={() => onSynonymPressed(item)}
+              <SynonymButton
                 key={item.id}
-              >
-                <View
-                  style={{
-                    ...styles.addSynonymButton,
-                    borderColor: theme.colors.border,
-                  }}
-                >
-                  <Text style={{ color: theme.colors.text }}>{item.word}</Text>
-                </View>
-              </TouchableOpacity>
+                synonym={item}
+                onPress={onSynonymPressed}
+                onDelete={onDeleteSynonym}
+              />
             ))}
           </View>
         </View>

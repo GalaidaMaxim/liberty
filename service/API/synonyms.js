@@ -23,10 +23,11 @@ export const getSynonyms = async (word_id, token) => {
   return result.data;
 };
 
-export const deleteSynonym = async (id, token) => {
-  const result = await axios.delete("/types", {
+export const deleteSynonym = async (word_id, sysnonym_id, token) => {
+  const result = await axios.delete("/synonyms", {
     data: {
-      typesID: id,
+      word_id,
+      sysnonym_id,
     },
     headers: {
       Authorization: `Bearer ${token}`,

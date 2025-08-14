@@ -28,6 +28,7 @@ export const AddSynonymModal = ({
         storageGetToken()
       );
       setSynonyms((prev) => [...prev, synonym]);
+      setOpen(false);
     } catch (err) {
       console.log(err);
     }
