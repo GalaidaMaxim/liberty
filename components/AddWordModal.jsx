@@ -46,7 +46,6 @@ export const AddWordModal = ({
         token: storageGetToken(),
       });
       setOpen(false);
-      console.log(route.params.words);
 
       navigation.navigate("Word", {
         dictionary: route.params.dictionary,

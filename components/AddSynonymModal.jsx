@@ -19,8 +19,6 @@ export const AddSynonymModal = ({
   const route = useRoute();
   const theme = useTheme();
 
-  console.log(route.params.words, synonyms);
-
   const onAddPressed = async (synonym) => {
     dispatch(enableLoading());
     try {

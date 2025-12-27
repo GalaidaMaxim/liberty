@@ -61,7 +61,6 @@ export const WordScreen = ({ navigation }) => {
       try {
         const result = await getNotes(route.params.word.id, storageGetToken());
         const syn = await getSynonyms(route.params.word.id, storageGetToken());
-        console.log(syn);
 
         setNotes(result);
         setSynonyms(syn);

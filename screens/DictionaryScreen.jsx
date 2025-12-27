@@ -98,7 +98,12 @@ export const DictionaryScreen = () => {
             return item.type_id === selectedType;
           })
           .map((item) => (
-            <WordsCard key={item.id} word={item} words={words} />
+            <WordsCard
+              key={item.id}
+              word={item}
+              words={words}
+              setWords={setWords}
+            />
           ))}
       </ScrollView>
       <TouchableHighlight

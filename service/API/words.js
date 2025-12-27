@@ -48,3 +48,11 @@ export const editWord = async (id, body = {}, token) => {
   });
   return result.data;
 };
+
+export const deleteWord = async (wordsID, token) => {
+  const result = await axios.delete("/words", {
+    data: { wordsID },
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return result.data;
+};
