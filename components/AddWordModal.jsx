@@ -17,7 +17,11 @@ import { createWord } from "../service/API/words";
 import { enableLoading, disableLoadgin } from "../redux/slices";
 import { storageGetToken } from "../service/storage/token";
 
-export const AddWordModal = ({ open = true, setOpen = () => {}, setWords }) => {
+export const AddWordModal = ({
+  open = true,
+  setOpen = () => {},
+  words = [],
+}) => {
   const [name, setName] = useState("");
   const [translation, setTranslation] = useState("");
   const [type, setType] = useState(-1);
@@ -42,9 +46,12 @@ export const AddWordModal = ({ open = true, setOpen = () => {}, setWords }) => {
         token: storageGetToken(),
       });
       setOpen(false);
+      console.log(route.params.words);
+
       navigation.navigate("Word", {
         dictionary: route.params.dictionary,
         word: result,
+        words,
       });
 
       setName("");

@@ -19,6 +19,8 @@ export const AddSynonymModal = ({
   const route = useRoute();
   const theme = useTheme();
 
+  console.log(route.params.words, synonyms);
+
   const onAddPressed = async (synonym) => {
     dispatch(enableLoading());
     try {
@@ -35,8 +37,8 @@ export const AddSynonymModal = ({
     dispatch(disableLoadgin());
   };
 
-  const synonymsID = synonyms.map((item) => item.id);
-  const words = route.params.words.filter(
+  const synonymsID = synonyms ? synonyms.map((item) => item.id) : [];
+  const words = route.params.words?.filter(
     (item) => !synonymsID.includes(item.id) && item.id !== route.params.word.id
   );
 

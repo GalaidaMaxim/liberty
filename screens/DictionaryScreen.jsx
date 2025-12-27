@@ -118,6 +118,7 @@ export const DictionaryScreen = () => {
         setWords={setWords}
         open={addWordModal}
         setOpen={setWordModal}
+        words={words}
       />
     </Outlet>
   );
