@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const createSynonym = async (word_id, synonym_id, token) => {
+export const createAntonym = async (word_id, antonym_id, token) => {
   const result = await axios.post(
-    "/synonyms",
-    { word_id, synonym_id },
+    "/antonyms",
+    { word_id, antonym_id },
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -13,8 +13,8 @@ export const createSynonym = async (word_id, synonym_id, token) => {
   return result.data;
 };
 
-export const getSynonyms = async (word_id, token) => {
-  const result = await axios.get("/synonyms", {
+export const getAntonyms = async (word_id, token) => {
+  const result = await axios.get("/antonyms", {
     params: { word_id },
     headers: {
       Authorization: `Bearer ${token}`,
@@ -23,11 +23,11 @@ export const getSynonyms = async (word_id, token) => {
   return result.data;
 };
 
-export const deleteSynonym = async (word_id, synonym_id, token) => {
-  const result = await axios.delete("/synonyms", {
+export const deleteAntonyms = async (word_id, antonym_id, token) => {
+  const result = await axios.delete("/antonyms", {
     data: {
       word_id,
-      synonym_id,
+      antonym_id,
     },
     headers: {
       Authorization: `Bearer ${token}`,

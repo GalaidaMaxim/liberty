@@ -24,9 +24,10 @@ import { Note } from "../components/Note";
 import { EditNoteModal } from "../components/EditNoteModal";
 import { buttonBase } from "../styles/global";
 import { AddSynonymModal } from "../components/AddSynonymModal";
-import { getSynonyms } from "../service/API/synonyms";
+import { AddAntonymsModal } from "../components/AddAntonymModal";
+import { getSynonyms, deleteSynonym } from "../service/API/synonyms";
+import { getAntonyms, deleteAntonyms } from "../service/API/antonyms";
 import { SynonymButton } from "../components/SynonymButton";
-import { deleteSynonym } from "../service/API/synonyms";
 
 export const WordScreen = ({ navigation }) => {
   const route = useRoute();
@@ -39,8 +40,9 @@ export const WordScreen = ({ navigation }) => {
   const [notes, setNotes] = useState([]);
   const [noteToEdit, setNoteToEdit] = useState(null);
   const [synonymModal, setSynonymModal] = useState(false);
+  const [antonymModal, setAntonymModal] = useState(false);
   const [synonyms, setSynonyms] = useState([]);
-
+  const [antonyms, setAntonyms] = useState([]);
   const [nodeModal, setNoteModal] = useState(false);
 
   const dispatch = useDispatch();
@@ -61,9 +63,11 @@ export const WordScreen = ({ navigation }) => {
       try {
         const result = await getNotes(route.params.word.id, storageGetToken());
         const syn = await getSynonyms(route.params.word.id, storageGetToken());
+        const ant = await getAntonyms(route.params.word.id, storageGetToken());
 
         setNotes(result);
         setSynonyms(syn);
+        setAntonyms(ant);
       } catch (err) {
         console.log(err);
       }
@@ -123,6 +127,17 @@ export const WordScreen = ({ navigation }) => {
     try {
       await deleteSynonym(route.params.word.id, synonymID, storageGetToken());
       setSynonyms((prev) => prev.filter((item) => item.id !== synonymID));
+    } catch (err) {
+      console.log(err);
+    }
+    dispatch(disableLoadgin());
+  };
+
+  const onDeleteAntonym = async (antonymID) => {
+    dispatch(enableLoading());
+    try {
+      await deleteAntonyms(route.params.word.id, antonymID, storageGetToken());
+      setAntonyms((prev) => prev.filter((item) => item.id !== antonymID));
     } catch (err) {
       console.log(err);
     }
@@ -237,6 +252,31 @@ export const WordScreen = ({ navigation }) => {
             ))}
           </View>
         </View>
+        <View style={{ ...styles.synonymBlock }}>
+          <Text style={{ ...styles.synonymTytle, color: theme.colors.text }}>
+            Антоніми
+          </Text>
+          <View style={{ ...styles.synonymButtonBlock }}>
+            <TouchableOpacity onPress={() => setAntonymModal(true)}>
+              <View
+                style={{
+                  ...styles.addSynonymButton,
+                  borderColor: theme.colors.border,
+                }}
+              >
+                <AntDesign name="plus" size={16} color={theme.colors.border} />
+              </View>
+            </TouchableOpacity>
+            {antonyms.map((item) => (
+              <SynonymButton
+                key={item.id}
+                synonym={item}
+                onPress={onSynonymPressed}
+                onDelete={onDeleteAntonym}
+              />
+            ))}
+          </View>
+        </View>
       </ScrollView>
       <AddNoteModal
         open={nodeModal}
@@ -253,6 +293,12 @@ export const WordScreen = ({ navigation }) => {
         setOpen={setSynonymModal}
         synonyms={synonyms}
         setSynonyms={setSynonyms}
+      />
+      <AddAntonymsModal
+        open={antonymModal}
+        setOpen={setAntonymModal}
+        antonyms={antonyms}
+        setAntonyms={setAntonyms}
       />
     </Outlet>
   );
