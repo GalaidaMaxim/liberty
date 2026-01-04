@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { Button, View, TextInput } from "react-native";
+import { Button, View, TextInput, Text } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import { googleRegistration, loginWithPasword } from "../service/API/auth";
 import { getUser } from "../service/API/user";
@@ -12,6 +12,8 @@ import { setUser, enableLoading, disableLoadgin } from "../redux/slices";
 import { globalStyles } from "../styles/global";
 import { getDictionaryThunk } from "../redux/operations";
 import { useTheme } from "@react-navigation/native";
+import localisation from "../localisation";
+import { CustomButton } from "../components/CustomButton";
 
 export const LoginScreen = ({ navigation }) => {
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -88,53 +90,121 @@ export const LoginScreen = ({ navigation }) => {
     disableLoadgin(disableLoadgin());
   };
 
+  const upTitle = localisation.english.welcomeTo.split(" ");
+  console.log(upTitle);
+
   return (
     <View
       style={{
         flex: 1,
         justifyContent: "center",
-        alignItems: "center",
       }}
     >
-      <View style={{ width: "90%" }}>
-        <TextInput
-          placeholder="email"
-          style={{
-            ...styles.input,
-            borderColor: theme.colors.border,
-            color: theme.colors.text,
-          }}
-          placeholderTextColor={theme.colors.placeholder}
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-        <TextInput
-          secureTextEntry={true}
-          placeholder="password"
-          style={{
-            ...styles.input,
-            borderColor: theme.colors.border,
-            color: theme.colors.text,
-          }}
-          placeholderTextColor={theme.colors.placeholder}
-          onChangeText={(text) => setPassword(text)}
-        />
-        <View style={{ marginBottom: 10 }}>
-          <Button disabled={!request} title="Login" onPress={onLogin} />
+      <View style={styles.mainWraper}>
+        <View style={styles.textView}>
+          <Text
+            style={{
+              ...styles.upTitle,
+              color: theme.colors.text,
+              fontFamily: theme.fontFamily,
+            }}
+          >
+            {upTitle[0]}
+          </Text>
+          {upTitle.length > 1 && (
+            <Text
+              style={{
+                ...styles.upTitle,
+                color: theme.colors.text,
+                fontFamily: theme.fontFamily,
+              }}
+            >
+              {upTitle[upTitle.length - 1]}
+            </Text>
+          )}
+          <Text
+            style={{
+              ...styles.title,
+              color: theme.colors.text,
+              fontFamily: theme.fontFamily,
+            }}
+          >
+            Lexigo
+          </Text>
         </View>
-        <Button
-          disabled={!request}
-          title="Login with Google"
-          onPress={() => promptAsync()}
-        />
+        <View
+          style={{ ...styles.inputWraper, borderColor: theme.colors.border }}
+        >
+          <TextInput
+            placeholder="email"
+            style={{
+              ...styles.input,
+              borderColor: theme.colors.border,
+              color: theme.colors.text,
+            }}
+            placeholderTextColor={theme.colors.placeholder}
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+          />
+          <View
+            style={{ ...styles.midLine, borderColor: theme.colors.border }}
+          ></View>
+          <TextInput
+            secureTextEntry={true}
+            placeholder="password"
+            style={{
+              ...styles.input,
+              borderColor: theme.colors.border,
+              color: theme.colors.text,
+            }}
+            placeholderTextColor={theme.colors.placeholder}
+            onChangeText={(text) => setPassword(text)}
+          />
+        </View>
+        <View style={{ ...styles.buttonView }}>
+          <CustomButton onPress={onLogin}>
+            {localisation.english.continue}
+          </CustomButton>
+          <CustomButton disabled={!request} onPress={() => promptAsync()}>
+            Login with Google
+          </CustomButton>
+        </View>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  upTitle: { fontWeight: 400, fontSize: 32, lineHeight: 32 },
+  title: {
+    fontWeight: 400,
+    fontSize: 64,
+    lineHeight: 75,
+  },
+  inputWraper: {
+    borderWidth: 3,
+    borderRadius: 12,
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  midLine: {
+    borderTopWidth: 1,
+  },
   input: {
     ...globalStyles.input,
-    marginBottom: 10,
+  },
+  textView: {
+    alignItems: "center",
+    gap: 5,
+  },
+  mainWraper: {
+    marginLeft: 30,
+    marginRight: 30,
+    gap: 94,
+  },
+  buttonView: {
+    gap: 10,
   },
 });

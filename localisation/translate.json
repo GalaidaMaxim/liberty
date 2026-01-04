@@ -1,0 +1,50 @@
+{
+  "english": {
+    "welcomeTo": "Welcome to",
+    "userName": "User name",
+    "password": "Password",
+    "continue": "Sign in",
+    "title": "Title",
+    "description": "Description",
+    "save": "Save",
+    "word": "Word",
+    "translation": "Translation",
+    "notes": "Notes",
+    "synonyms": "Synonyms",
+    "antonym": "Antonym",
+    "category": "Category",
+    "seeAll": "see all"
+  },
+  "ukrainian": {
+    "welcomeTo": "Вітаємо в",
+    "userName": "Ім'я користувача",
+    "password": "Пароль",
+    "continue": "Увійти",
+    "title": "Назва",
+    "description": "Опис",
+    "save": "Зберегти",
+    "word": "Слово",
+    "translation": "Переклад",
+    "notes": "Примітки",
+    "synonyms": "Синоніми",
+    "antonym": "Антонім",
+    "category": "Категорія",
+    "seeAll": "побачити все"
+  },
+  "georgian": {
+    "welcomeTo": "მოგესალმებით",
+    "userName": "მომხმარებლის სახელი",
+    "password": "პაროლი",
+    "continue": "შესვლა",
+    "title": "სათაური",
+    "description": "აღწერა",
+    "save": "შენახვა",
+    "word": "სიტყვა",
+    "translation": "თარგმანი",
+    "notes": "შენიშვნები",
+    "synonyms": "სინონიმი",
+    "antonym": "ანტონიმი",
+    "category": "კატეგორია",
+    "seeAll": "ყვალას ნახვა"
+  }
+}

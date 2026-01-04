@@ -1,4 +1,4 @@
-import { NavigationContainer, DarkTheme } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen } from "./screens/LoginScreen";
 import { MainScreen } from "./screens/Main";
@@ -9,23 +9,31 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { Loader } from "./components/Loader";
 import { MenuProvider } from "react-native-popup-menu";
+import { useFonts } from "expo-font";
 
 const MyTheme = {
-  ...DarkTheme,
+  ...DefaultTheme,
   colors: {
-    ...DarkTheme.colors,
-    background: "rgb(40, 40, 40)",
+    background: "#fefae3",
+    lightText: "#fefae3",
     card: "rgb(70, 70, 70)",
-    text: "white",
-    border: "gray",
+    text: "#493639",
+    border: "#493639",
     primary: "orange",
-    placeholder: "rgba(255, 255, 255, 0.7)",
+    placeholder: "rgba(39, 12, 12, 0.7)",
   },
+  fontFamily: "Georgia",
   shadow: "1px 1px 7px gray",
 };
 
 const MainStack = createStackNavigator();
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Georgia: require("./fonts/georgia/georgia.ttf"),
+  });
+
+  if (!fontsLoaded) return null;
+
   return (
     <Provider store={store}>
       <SafeAreaProvider>
