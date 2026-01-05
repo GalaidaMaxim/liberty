@@ -14,6 +14,7 @@ import { getDictionaryThunk } from "../redux/operations";
 import { useTheme } from "@react-navigation/native";
 import localisation from "../localisation";
 import { CustomButton } from "../components/CustomButton";
+import { storageGetLocalistion } from "../service/storage/localisation";
 
 export const LoginScreen = ({ navigation }) => {
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -24,6 +25,7 @@ export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const dispatch = useDispatch();
   const theme = useTheme();
+  const language = storageGetLocalistion();
 
   const getUserInfo = async (token) => {
     dispatch(enableLoading());
@@ -90,7 +92,7 @@ export const LoginScreen = ({ navigation }) => {
     disableLoadgin(disableLoadgin());
   };
 
-  const upTitle = localisation.english.welcomeTo.split(" ");
+  const upTitle = localisation[language].welcomeTo.split(" ");
   console.log(upTitle);
 
   return (
@@ -136,7 +138,7 @@ export const LoginScreen = ({ navigation }) => {
           style={{ ...styles.inputWraper, borderColor: theme.colors.border }}
         >
           <TextInput
-            placeholder="email"
+            placeholder={localisation[language].userName}
             style={{
               ...styles.input,
               borderColor: theme.colors.border,
@@ -151,7 +153,7 @@ export const LoginScreen = ({ navigation }) => {
           ></View>
           <TextInput
             secureTextEntry={true}
-            placeholder="password"
+            placeholder={localisation[language].password}
             style={{
               ...styles.input,
               borderColor: theme.colors.border,
@@ -163,7 +165,7 @@ export const LoginScreen = ({ navigation }) => {
         </View>
         <View style={{ ...styles.buttonView }}>
           <CustomButton onPress={onLogin}>
-            {localisation.english.continue}
+            {localisation[language].continue}
           </CustomButton>
           <CustomButton disabled={!request} onPress={() => promptAsync()}>
             Login with Google

@@ -1,11 +1,16 @@
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { Outlet } from "../components/Outlet";
-import { ScrollView, StyleSheet, TouchableHighlight } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableHighlight,
+  Image,
+} from "react-native";
 import { AddDictionaryModal } from "../components/AddDictionaryMoad.";
 import { useState } from "react";
 import { DictionaryCard } from "../components/DictionaryCard";
 import { useDictionareis } from "../redux/selectors";
 import { useTheme } from "@react-navigation/native";
+import penTool from "../assets/penTool.png";
 
 export const MainScreen = ({ navigation }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -22,9 +27,9 @@ export const MainScreen = ({ navigation }) => {
       <AddDictionaryModal open={modalOpen} setOpen={setModalOpen} />
       <TouchableHighlight
         onPressIn={() => setModalOpen(true)}
-        style={styles.aboluteViev}
+        style={{ ...styles.aboluteViev, backgroundColor: theme.colors.border }}
       >
-        <AntDesign name="pluscircleo" size={50} color={theme.colors.text} />
+        <Image source={penTool} />
       </TouchableHighlight>
     </Outlet>
   );
@@ -35,11 +40,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 60,
     right: 10,
-    // backgroundColor: "white",
+    padding: 16,
     borderRadius: "50%",
   },
   mainScroll: {
-    paddingTop: 40,
+    paddingTop: 20,
+    paddingLeft: 11,
+    paddingRight: 11,
     alignItems: "center",
   },
 });
