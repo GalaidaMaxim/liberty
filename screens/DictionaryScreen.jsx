@@ -1,11 +1,11 @@
 import { Outlet } from "../components/Outlet";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import {
   TouchableHighlight,
   ScrollView,
   StyleSheet,
   Text,
   Image,
+  View,
 } from "react-native";
 import { useState } from "react";
 import { AddTypeModal } from "../components/AddTypeModal";
@@ -24,6 +24,7 @@ import { useRoute } from "@react-navigation/native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import whiteCorst from "../assets/whiteCross.png";
+import penTool from "../assets/penTool.png";
 
 export const DictionaryScreen = () => {
   const [typeModal, setTypeModal] = useState(false);
@@ -68,7 +69,7 @@ export const DictionaryScreen = () => {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         horizontal
-        contentContainerStyle={styles.typeList}
+        contentContainerStyle={{ ...styles.typeList, ...styles.cover }}
         style={styles.typeListScroll}
       >
         <TouchableHighlight
@@ -100,7 +101,7 @@ export const DictionaryScreen = () => {
           />
         ))}
       </ScrollView>
-      <ScrollView style={styles.wordsList}>
+      <ScrollView style={{ ...styles.wordsList, ...styles.cover }}>
         {words
           .filter((item) => {
             if (!selectedType) {
@@ -119,9 +120,9 @@ export const DictionaryScreen = () => {
       </ScrollView>
       <TouchableHighlight
         onPressIn={() => setWordModal(true)}
-        style={styles.aboluteViev}
+        style={{ ...styles.aboluteViev, backgroundColor: theme.colors.border }}
       >
-        <AntDesign name="pluscircleo" size={50} color={theme.colors.text} />
+        <Image source={penTool} />
       </TouchableHighlight>
       <AddTypeModal open={typeModal} setOpen={setTypeModal} />
       <EditTypeModal
@@ -141,6 +142,10 @@ export const DictionaryScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  cover: {
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
   typeListScroll: {
     maxHeight: 70,
     outlive: "1px solid green",
@@ -174,6 +179,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 60,
     right: 10,
+    padding: 16,
     borderRadius: "50%",
   },
 });

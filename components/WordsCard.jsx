@@ -49,15 +49,26 @@ export const WordsCard = ({ word, words, setWords = () => {} }) => {
           onLongPress={openMenu}
           style={{
             ...styles.card,
-            backgroundColor: theme.colors.card,
             borderColor: theme.colors.border,
           }}
         >
-          <Text style={{ ...styles.word, color: theme.colors.text, flex: 1 }}>
-            {word.word}
+          <Text
+            style={{
+              ...styles.word,
+              color: theme.colors.text,
+              fontFamily: theme.fontFamily,
+            }}
+          >
+            {word.word.trim()}
           </Text>
-          <Text style={{ color: theme.colors.text, flex: 1 }}>
-            {word.translation}
+          <Text
+            style={{
+              ...styles.translation,
+
+              fontFamily: theme.fontFamily,
+            }}
+          >
+            {word.translation.trim()}
           </Text>
         </TouchableOpacity>
       </MenuTrigger>
@@ -65,7 +76,6 @@ export const WordsCard = ({ word, words, setWords = () => {} }) => {
         customStyles={{
           optionsContainer: {
             backgroundColor: "#333",
-
             borderRadius: 8,
             marginTop: 50,
           },
@@ -87,7 +97,7 @@ export const WordsCard = ({ word, words, setWords = () => {} }) => {
 const styles = StyleSheet.create({
   card: {
     marginBottom: 10,
-    height: 50,
+    height: 43,
     alignItems: "center",
     paddingLeft: 20,
     position: "relative",
@@ -95,9 +105,10 @@ const styles = StyleSheet.create({
 
     borderRadius: 10,
     borderWidth: 1,
-    boxShadow: "1px 1px 5px black",
+    gap: 20,
   },
   word: {
     fontSize: 20,
   },
+  translation: { fontSize: 20, color: "rgba(73, 54, 57, 0.6)" },
 });

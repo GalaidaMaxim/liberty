@@ -93,7 +93,6 @@ export const LoginScreen = ({ navigation }) => {
   };
 
   const upTitle = localisation[language].welcomeTo.split(" ");
-  console.log(upTitle);
 
   return (
     <View

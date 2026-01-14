@@ -17,4 +17,5 @@ export const buttonBase = {
   justifyContent: "center",
   alignItems: "center",
   borderRadius: 15,
+  boxShadow: "0px 4px 4px rgba(0,0,0,0.41)",
 };
