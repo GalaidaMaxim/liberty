@@ -11,12 +11,10 @@ export const globalStyles = StyleSheet.create({
 });
 
 export const buttonBase = {
-  height: 40,
-  minWidth: 40,
-  paddingLeft: 10,
-  paddingRight: 10,
-  marginRight: 10,
+  height: 30,
+  minWidth: 30,
+
   justifyContent: "center",
   alignItems: "center",
-  borderRadius: 20,
+  borderRadius: 15,
 };

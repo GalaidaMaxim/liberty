@@ -40,6 +40,7 @@ export const TypeButtonMenu = ({
             style={{
               ...styles.blueButton,
               ...(type.id !== selectedType ? {} : styles.highlited),
+              backgroundColor: theme.colors.border,
             }}
           >
             <Text style={styles.buttonText}>{type.name}</Text>

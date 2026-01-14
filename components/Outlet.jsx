@@ -8,6 +8,7 @@ import { useRoute } from "@react-navigation/native";
 import { useTheme } from "@react-navigation/native";
 import personIcon from "../assets/personIcon.png";
 import burger from "../assets/burger.png";
+import backIcon from "../assets/backIcon.png";
 
 export const Outlet = ({ children, navigation }) => {
   const user = useUser();
@@ -37,9 +38,9 @@ export const Outlet = ({ children, navigation }) => {
         <View
           style={{ ...styles.header, backgroundColor: theme.colors.header }}
         >
-          <Image source={personIcon} />
+          <Image source={backIcon} />
           <Text style={{ ...styles.logo, fontFamily: theme.fontFamily }}>
-            Liberty
+            Lexigo
           </Text>
           <Image source={burger} />
         </View>

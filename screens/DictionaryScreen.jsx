@@ -1,7 +1,13 @@
 import { Outlet } from "../components/Outlet";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { TouchableHighlight, ScrollView, StyleSheet, Text } from "react-native";
-import { useState, useEffect } from "react";
+import {
+  TouchableHighlight,
+  ScrollView,
+  StyleSheet,
+  Text,
+  Image,
+} from "react-native";
+import { useState } from "react";
 import { AddTypeModal } from "../components/AddTypeModal";
 import { EditTypeModal } from "../components/EditTypeModal";
 import { useTypes } from "../redux/selectors";
@@ -17,6 +23,7 @@ import { WordsCard } from "../components/WordsCard";
 import { useRoute } from "@react-navigation/native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
+import whiteCorst from "../assets/whiteCross.png";
 
 export const DictionaryScreen = () => {
   const [typeModal, setTypeModal] = useState(false);
@@ -61,22 +68,26 @@ export const DictionaryScreen = () => {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         horizontal
-        style={styles.typeList}
+        contentContainerStyle={styles.typeList}
+        style={styles.typeListScroll}
       >
         <TouchableHighlight
           onPress={() => setTypeModal(true)}
-          style={{ ...styles.button, borderColor: theme.colors.border }}
+          style={{ ...styles.button, backgroundColor: theme.colors.border }}
         >
-          <AntDesign name="plus" size={16} color={theme.colors.border} />
+          <Image source={whiteCorst} />
         </TouchableHighlight>
         <TouchableHighlight
           style={{
             ...styles.blueButton,
             ...(selectedType ? {} : styles.highlited),
+            backgroundColor: theme.colors.border,
           }}
           onPress={() => setSelectedType(null)}
         >
-          <Text style={styles.buttonText}>Всі</Text>
+          <Text style={{ ...styles.buttonText, fontFamily: theme.fontFamily }}>
+            Всі
+          </Text>
         </TouchableHighlight>
         {types.map((item) => (
           <TypeButtonMenu
@@ -130,33 +141,39 @@ export const DictionaryScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  typeList: { padding: 10, flexDirection: "row", maxHeight: 60 },
+  typeListScroll: {
+    maxHeight: 70,
+    outlive: "1px solid green",
+  },
+  typeList: {
+    marginTop: 20,
+    flexDirection: "row",
+    gap: 10,
+  },
 
   button: {
     ...buttonBase,
-    borderWidth: 1,
   },
   blueButton: {
     ...buttonBase,
-    backgroundColor: "rgb(46, 129, 255)",
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   buttonText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 20,
   },
   wordsList: {
     flex: 1,
-    padding: 10,
   },
   highlited: {
-    outlineColor: "white",
-    outlineWidth: 1,
+    outlineColor: "rgba(137,108,50,0.87)",
+    outlineWidth: 2,
   },
   aboluteViev: {
     position: "absolute",
     bottom: 60,
     right: 10,
-
     borderRadius: "50%",
   },
 });

@@ -22,7 +22,7 @@ const MyTheme = {
     primary: "orange",
     placeholder: "rgba(39, 12, 12, 0.7)",
     gostText: "rgba(73,54,57,0.7)",
-    header: "#896C32",
+    header: "rgba(137,108,50,0.87)",
   },
   fontFamily: "Georgia",
   shadow: "1px 1px 7px gray",
