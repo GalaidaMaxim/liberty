@@ -1,12 +1,4 @@
-import {
-  Modal,
-  Button,
-  Text,
-  TextInput,
-  StyleSheet,
-  View,
-  Pressable,
-} from "react-native";
+import { Modal, Button, Text, StyleSheet, View, Pressable } from "react-native";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRoute, useNavigation } from "@react-navigation/native";
@@ -16,6 +8,10 @@ import { useTypes } from "../redux/selectors";
 import { createWord } from "../service/API/words";
 import { enableLoading, disableLoadgin } from "../redux/slices";
 import { storageGetToken } from "../service/storage/token";
+import { CustomInput, CustomPicker } from "./CustomInput";
+import { CustomButton } from "./CustomButton";
+import { storageGetLocalistion } from "../service/storage/localisation";
+import localisation from "../localisation";
 
 export const AddWordModal = ({
   open = true,
@@ -34,6 +30,8 @@ export const AddWordModal = ({
   const navigation = useNavigation();
 
   const typesList = [{ id: -1, name: "Без типу" }, ...types];
+
+  const language = storageGetLocalistion();
 
   const onCreate = async () => {
     dispatch(enableLoading());
@@ -65,59 +63,43 @@ export const AddWordModal = ({
       <Pressable onPress={() => setOpen(false)} style={styles.backdrop}>
         <Pressable
           onPress={() => {}}
-          style={{ ...styles.modal, backgroundColor: theme.colors.card }}
+          style={{ ...styles.modal, backgroundColor: theme.colors.background }}
         >
-          <View>
+          <View style={styles.mainView}>
             <Text style={{ ...styles.title, color: theme.colors.text }}>
               Додати слово
             </Text>
-            <TextInput
+            <CustomInput
               value={name}
               onChangeText={(text) => setName(text)}
-              placeholder="Слово"
-              style={{
-                ...styles.input,
-                borderColor: theme.colors.border,
-                color: theme.colors.text,
-              }}
+              placeholder={localisation[language].word}
+              style={styles.input}
               placeholderTextColor={theme.colors.placeholder}
+              onReset={() => setName("")}
             />
-            <TextInput
+            <CustomInput
               value={translation}
               onChangeText={(text) => setTranslation(text)}
-              placeholder="Переклад"
+              placeholder={localisation[language].translation}
               style={{
                 ...styles.input,
-                borderColor: theme.colors.border,
-                color: theme.colors.text,
               }}
               placeholderTextColor={theme.colors.placeholder}
             />
-            <View
-              style={{
-                ...styles.picker,
-
-                borderColor: theme.colors.border,
-              }}
+            <CustomPicker
+              selectedValue={type}
+              style={styles.input}
+              placeholder="Тип"
+              onValueChange={(itemValue) => setType(itemValue)}
             >
-              <Picker
-                selectedValue={type}
-                onValueChange={(itemValue) => setType(itemValue)}
-                style={{
-                  color: theme.colors.text,
-                }}
-              >
-                {typesList.map((item) => (
-                  <Picker.Item
-                    key={item.id}
-                    label={item.name}
-                    value={item.id}
-                  />
-                ))}
-              </Picker>
-            </View>
+              {typesList.map((item) => (
+                <Picker.Item key={item.id} label={item.name} value={item.id} />
+              ))}
+            </CustomPicker>
+            <CustomButton onPress={() => onCreate()}>
+              {localisation[language].save}
+            </CustomButton>
           </View>
-          <Button title="Додати" onPress={() => onCreate()} />
         </Pressable>
       </Pressable>
     </Modal>
@@ -132,19 +114,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modal: {
-    height: 300,
-    width: "90%",
+    width: "100%",
     padding: 20,
     borderRadius: 10,
     justifyContent: "space-between",
   },
+  mainView: {
+    gap: 20,
+  },
   title: {
     fontSize: 30,
   },
-  input: {
-    marginTop: 10,
-    borderWidth: 1,
-  },
+  input: {},
   picker: {
     borderWidth: 1,
     height: 45,
