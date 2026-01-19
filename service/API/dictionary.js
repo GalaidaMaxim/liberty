@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const createDictionary = async (name, token) => {
+export const createDictionary = async (name, description, token) => {
   const result = await axios.post(
     "/dictionary",
-    { name },
+    { name, description },
     { headers: { Authorization: `Bearer ${token}` } }
   );
   return result.data;

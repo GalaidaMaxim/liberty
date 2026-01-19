@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://10.40.192.184:3000/api";
+axios.defaults.baseURL = "https://liberty-server.vercel.app/api";
 
 export const googleRegistration = async (token) => {
   const result = await axios.post("/auth/google-registration", {

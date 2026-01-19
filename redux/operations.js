@@ -13,9 +13,9 @@ import {
 
 export const createDictionaryThunk = createAsyncThunk(
   "dictionary/create",
-  async ({ name, token }, { rejectWithValue }) => {
+  async ({ name, description, token }, { rejectWithValue }) => {
     try {
-      const reusult = await createDictionary(name, token);
+      const reusult = await createDictionary(name, description, token);
       return reusult;
     } catch (err) {
       rejectWithValue(err);

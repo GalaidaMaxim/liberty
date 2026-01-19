@@ -17,11 +17,13 @@ export const CustomInput = ({
   placeholderTextColor,
   style,
   onReset = () => {},
+  multiline = false,
 }) => {
   const theme = useTheme();
   return (
     <View style={{ ...styles.view, ...style }}>
       <TextInput
+        multiline={multiline}
         value={value}
         onChangeText={onChangeText}
         style={{ ...styles.input }}

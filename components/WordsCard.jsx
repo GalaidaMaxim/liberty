@@ -75,7 +75,7 @@ export const WordsCard = ({ word, words, setWords = () => {} }) => {
       <MenuOptions
         customStyles={{
           optionsContainer: {
-            backgroundColor: "#333",
+            backgroundColor: theme.colors.background,
             borderRadius: 8,
             marginTop: 50,
           },

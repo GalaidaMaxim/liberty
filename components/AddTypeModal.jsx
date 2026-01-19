@@ -13,6 +13,8 @@ import { createTypeThunk } from "../redux/operations";
 import * as SecureStore from "expo-secure-store";
 import { useRoute } from "@react-navigation/native";
 import { useTheme } from "@react-navigation/native";
+import { CustomInput } from "./CustomInput";
+import { CustomButton } from "./CustomButton";
 
 export const AddTypeModal = ({ open = true, setOpen = () => {} }) => {
   const [name, setName] = useState("");
@@ -37,13 +39,13 @@ export const AddTypeModal = ({ open = true, setOpen = () => {} }) => {
       <Pressable onPress={() => setOpen(false)} style={styles.backdrop}>
         <Pressable
           onPress={() => {}}
-          style={{ ...styles.modal, backgroundColor: theme.colors.card }}
+          style={{ ...styles.modal, backgroundColor: theme.colors.background }}
         >
-          <View>
+          <View style={{ ...styles.mainView }}>
             <Text style={{ ...styles.title, color: theme.colors.text }}>
               Додати категорію
             </Text>
-            <TextInput
+            <CustomInput
               value={name}
               onChangeText={(text) => setName(text)}
               placeholder="Назва"
@@ -54,8 +56,8 @@ export const AddTypeModal = ({ open = true, setOpen = () => {} }) => {
               }}
               placeholderTextColor={theme.colors.placeholder}
             />
+            <CustomButton onPress={onAddPressed}>Додати</CustomButton>
           </View>
-          <Button onPress={onAddPressed} title="Додати" />
         </Pressable>
       </Pressable>
     </Modal>
@@ -70,17 +72,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modal: {
-    height: 200,
     width: "90%",
     padding: 20,
     borderRadius: 10,
     justifyContent: "space-between",
   },
+  mainView: {
+    gap: 20,
+  },
   title: {
     fontSize: 30,
   },
-  input: {
-    marginTop: 10,
+  input: {},
+  picker: {
     borderWidth: 1,
+    height: 45,
+    justifyContent: "center",
+    marginTop: 10,
   },
 });

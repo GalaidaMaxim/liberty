@@ -73,7 +73,7 @@ export const WordScreen = ({ navigation }) => {
       }
       dispatch(disableLoadgin());
     })();
-  }, [route.params]);
+  }, [route.params.word.id]);
 
   const onWordEdit = async () => {
     dispatch(enableLoading());
@@ -125,7 +125,11 @@ export const WordScreen = ({ navigation }) => {
   const onDeleteSynonym = async (synonymID) => {
     dispatch(enableLoading());
     try {
-      await deleteSynonym(route.params.word.id, synonymID, storageGetToken());
+      await deleteSynonym(
+        rou100te.params.word.id,
+        synonymID,
+        storageGetToken()
+      );
       setSynonyms((prev) => prev.filter((item) => item.id !== synonymID));
     } catch (err) {
       console.log(err);
@@ -175,6 +179,7 @@ export const WordScreen = ({ navigation }) => {
             style={{
               ...styles.wordTitle,
               color: theme.colors.text,
+              fontFamily: theme.fontFamily,
             }}
           />
         </Pressable>
@@ -201,7 +206,8 @@ export const WordScreen = ({ navigation }) => {
             }
             style={{
               ...styles.translation,
-              color: theme.colors.text,
+              // color: theme.colors.text,
+              fontFamily: theme.fontFamily,
             }}
           />
         </Pressable>
@@ -307,7 +313,7 @@ export const WordScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   wordView: {
     marginTop: 20,
-    height: 70,
+    height: 60,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
@@ -316,8 +322,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   wordTitle: {
-    fontSize: 40,
-    fontWeight: 700,
+    fontSize: 36,
+    fontWeight: 400,
     padding: 0,
   },
   translationView: {
@@ -329,7 +335,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
-  translation: { fontSize: 20 },
+  translation: { fontSize: 36, color: "rgba(73,54,57,0.8)" },
   outlied: {
     outlineColor: "red",
     // outlineWidth: 1,
