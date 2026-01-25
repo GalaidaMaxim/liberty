@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+  Image,
+} from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { useRef } from "react";
 import {
@@ -7,6 +14,7 @@ import {
   MenuOption,
   MenuTrigger,
 } from "react-native-popup-menu";
+import corst from "../assets/cross.png";
 import { deleteNote } from "../service/API/notes";
 import { useDispatch } from "react-redux";
 import { enableLoading, disableLoadgin } from "../redux/slices";
@@ -41,18 +49,29 @@ export const Note = ({ noteInfo, setNotes, setNoteToEdit }) => {
       <MenuTrigger customStyles={{ TriggerTouchableComponent: View }}>
         <TouchableOpacity
           onLongPress={openMenu}
-          style={{ ...styles.block, borderColor: theme.colors.border }}
+          style={{
+            ...styles.block,
+            borderColor: theme.colors.border,
+          }}
         >
-          <Text style={{ ...styles.text, color: theme.colors.text }}>
+          <Text
+            style={{
+              ...styles.text,
+              color: theme.colors.text,
+              fontFamily: theme.fontFamily,
+            }}
+          >
             {noteInfo.text}
           </Text>
+          <Pressable onPress={onDelete} style={{ ...styles.crosButton }}>
+            <Image source={corst} />
+          </Pressable>
         </TouchableOpacity>
       </MenuTrigger>
       <MenuOptions
         customStyles={{
           optionsContainer: {
             backgroundColor: "#333",
-
             borderRadius: 8,
             marginTop: 20,
           },
@@ -73,6 +92,22 @@ export const Note = ({ noteInfo, setNotes, setNoteToEdit }) => {
 };
 
 const styles = StyleSheet.create({
-  block: { marginTop: 20, borderWidth: 1, padding: 20, borderRadius: 10 },
-  text: { fontSize: 16 },
+  block: {
+    marginTop: 20,
+    borderWidth: 1,
+    paddingTop: 10,
+    paddingLeft: 15,
+    paddingRight: 25,
+    paddingBottom: 10,
+    borderRadius: 10,
+    position: "relative",
+  },
+  text: { fontSize: 20, lineHeight: 20 },
+  crosButton: {
+    position: "absolute",
+    width: 20,
+    height: 20,
+    right: 5,
+    top: 10,
+  },
 });

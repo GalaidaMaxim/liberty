@@ -28,10 +28,18 @@ export const SynonymButton = ({ synonym, onPress, onDelete }) => {
             onLongPress={openMenu}
             style={{
               ...styles.addSynonymButton,
-              borderColor: theme.colors.border,
+              backgroundColor: theme.colors.border,
             }}
           >
-            <Text style={{ color: theme.colors.text }}>{synonym.word}</Text>
+            <Text
+              style={{
+                ...styles.synonymTytle,
+                color: theme.colors.lightText,
+                fontFamily: theme.fontFamily,
+              }}
+            >
+              {synonym.word}
+            </Text>
           </TouchableHighlight>
         </MenuTrigger>
         <MenuOptions
@@ -64,9 +72,12 @@ export const SynonymButton = ({ synonym, onPress, onDelete }) => {
 const styles = StyleSheet.create({
   synonymTytle: {
     fontSize: 20,
+    // lineHeight: 30,
   },
   addSynonymButton: {
     ...buttonBase,
-    borderWidth: 1,
+    padding: 20,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
 });

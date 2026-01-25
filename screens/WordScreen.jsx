@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   Keyboard,
   Pressable,
-  Button,
   ScrollView,
+  Image,
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { editWord } from "../service/API/words";
@@ -28,6 +28,9 @@ import { AddAntonymsModal } from "../components/AddAntonymModal";
 import { getSynonyms, deleteSynonym } from "../service/API/synonyms";
 import { getAntonyms, deleteAntonyms } from "../service/API/antonyms";
 import { SynonymButton } from "../components/SynonymButton";
+import localisation from "../localisation";
+import { storageGetLocalistion } from "../service/storage/localisation";
+import whiteCrost from "../assets/whiteCross.png";
 
 export const WordScreen = ({ navigation }) => {
   const route = useRoute();
@@ -46,6 +49,7 @@ export const WordScreen = ({ navigation }) => {
   const [nodeModal, setNoteModal] = useState(false);
 
   const dispatch = useDispatch();
+  const language = storageGetLocalistion();
 
   useEffect(() => {
     const keyboardHideListener = Keyboard.addListener("keyboardDidHide", () => {
@@ -160,7 +164,6 @@ export const WordScreen = ({ navigation }) => {
             }, 60);
           }}
           style={{
-            ...styles.outlied,
             ...styles.wordView,
             borderBottomColor: theme.colors.border,
           }}
@@ -191,7 +194,7 @@ export const WordScreen = ({ navigation }) => {
               translationRef.current.focus();
             }, 60);
           }}
-          style={{ ...styles.outlied, ...styles.translationView }}
+          style={{ ...styles.translationView }}
         >
           <TextInput
             editable={translationReduction}
@@ -206,18 +209,37 @@ export const WordScreen = ({ navigation }) => {
             }
             style={{
               ...styles.translation,
-              // color: theme.colors.text,
+              color: theme.colors.text,
               fontFamily: theme.fontFamily,
             }}
           />
         </Pressable>
-        <View
+        <ScrollView
           style={{
             ...styles.notesView,
             borderBottomColor: theme.colors.border,
           }}
         >
-          <Button onPress={() => setNoteModal(true)} title="Додати нотаток" />
+          <View style={{ ...styles.notesControll }}>
+            <Text
+              style={{
+                ...styles.notesControllText,
+                fontFamily: theme.fontFamily,
+              }}
+            >
+              Notes
+            </Text>
+            <Pressable onPress={() => setNoteModal(true)}>
+              <Text
+                style={{
+                  ...styles.notesControllText,
+                  fontFamily: theme.fontFamily,
+                }}
+              >
+                add
+              </Text>
+            </Pressable>
+          </View>
           {notes.length === 0 ? (
             <View style={styles.noNotesView}>
               <Text style={styles.noNotesText}>Немає нотатків</Text>
@@ -232,10 +254,16 @@ export const WordScreen = ({ navigation }) => {
               />
             ))
           )}
-        </View>
+        </ScrollView>
         <View style={{ ...styles.synonymBlock }}>
-          <Text style={{ ...styles.synonymTytle, color: theme.colors.text }}>
-            Синоніми
+          <Text
+            style={{
+              ...styles.synonymTytle,
+              color: theme.colors.text,
+              fontFamily: theme.fontFamily,
+            }}
+          >
+            {localisation[language].synonyms}
           </Text>
           <View style={{ ...styles.synonymButtonBlock }}>
             <TouchableOpacity onPress={() => setSynonymModal(true)}>
@@ -243,9 +271,10 @@ export const WordScreen = ({ navigation }) => {
                 style={{
                   ...styles.addSynonymButton,
                   borderColor: theme.colors.border,
+                  backgroundColor: theme.colors.border,
                 }}
               >
-                <AntDesign name="plus" size={16} color={theme.colors.border} />
+                <Image source={whiteCrost} />
               </View>
             </TouchableOpacity>
             {synonyms.map((item) => (
@@ -260,7 +289,7 @@ export const WordScreen = ({ navigation }) => {
         </View>
         <View style={{ ...styles.synonymBlock }}>
           <Text style={{ ...styles.synonymTytle, color: theme.colors.text }}>
-            Антоніми
+            {localisation[language].antonym}
           </Text>
           <View style={{ ...styles.synonymButtonBlock }}>
             <TouchableOpacity onPress={() => setAntonymModal(true)}>
@@ -268,9 +297,10 @@ export const WordScreen = ({ navigation }) => {
                 style={{
                   ...styles.addSynonymButton,
                   borderColor: theme.colors.border,
+                  backgroundColor: theme.colors.border,
                 }}
               >
-                <AntDesign name="plus" size={16} color={theme.colors.border} />
+                <Image source={whiteCrost} />
               </View>
             </TouchableOpacity>
             {antonyms.map((item) => (
@@ -317,8 +347,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
     borderBottomWidth: 1,
   },
   wordTitle: {
@@ -328,21 +358,22 @@ const styles = StyleSheet.create({
   },
   translationView: {
     height: 70,
-    justifyContent: "center",
-    paddingLeft: 20,
-    paddingRight: 20,
+
+    paddingLeft: 10,
+    paddingRight: 10,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
   },
-  translation: { fontSize: 36, color: "rgba(73,54,57,0.8)" },
+  translation: { paddingLeft: 0, fontSize: 36, color: "rgba(73,54,57,0.8)" },
   outlied: {
     outlineColor: "red",
-    // outlineWidth: 1,
+    outlineWidth: 1,
   },
   notesView: {
-    paddingLeft: 20,
-    paddingRight: 20,
+    maxHeight: 317,
+    paddingLeft: 10,
+    paddingRight: 10,
     paddingBottom: 20,
     marginTop: 20,
     borderBottomWidth: 1,
@@ -352,6 +383,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 100,
   },
+  notesControll: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  notesControllText: {
+    fontSize: 20,
+  },
   noNotesText: {
     fontSize: 40,
     fontWeight: 100,
@@ -359,20 +397,19 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   synonymBlock: {
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 20,
-    marginTop: 20,
+    marginTop: 30,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   synonymButtonBlock: {
     marginTop: 20,
     flexDirection: "row",
+    gap: 10,
   },
   synonymTytle: {
     fontSize: 20,
   },
   addSynonymButton: {
     ...buttonBase,
-    borderWidth: 1,
   },
 });
