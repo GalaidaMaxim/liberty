@@ -1,5 +1,6 @@
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { LoginScreen } from "./screens/LoginScreen";
 import { MainScreen } from "./screens/Main";
 import { WordScreen } from "./screens/WordScreen";
@@ -10,6 +11,7 @@ import { Provider } from "react-redux";
 import { Loader } from "./components/Loader";
 import { MenuProvider } from "react-native-popup-menu";
 import { useFonts } from "expo-font";
+import { Drawer } from "./components/Drawer";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -29,6 +31,22 @@ const MyTheme = {
 };
 
 const MainStack = createStackNavigator();
+const DrawerNav = createDrawerNavigator();
+
+const MainNavigator = () => {
+  return (
+    <MainStack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="Login"
+    >
+      <MainStack.Screen name="Login" component={LoginScreen} />
+      <MainStack.Screen name="Main" component={MainScreen} />
+      <MainStack.Screen name="Word" component={WordScreen} />
+      <MainStack.Screen name="Dictionary" component={DictionaryScreen} />
+    </MainStack.Navigator>
+  );
+};
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     Georgia: require("./fonts/georgia/georgia.ttf"),
@@ -41,18 +59,22 @@ export default function App() {
       <SafeAreaProvider>
         <MenuProvider>
           <NavigationContainer theme={MyTheme}>
-            <MainStack.Navigator
-              screenOptions={{ headerShown: false }}
-              initialRouteName="Login"
+            <DrawerNav.Navigator
+              drawerContent={(props) => <Drawer {...props} />}
+              screenOptions={{
+                headerShown: false,
+                drawerStyle: {
+                  width: "50%",
+                  backgroundColor: MyTheme.colors.background,
+                },
+              }}
             >
-              <MainStack.Screen name="Login" component={LoginScreen} />
-              <MainStack.Screen name="Main" component={MainScreen} />
-              <MainStack.Screen name="Word" component={WordScreen} />
-              <MainStack.Screen
-                name="Dictionary"
-                component={DictionaryScreen}
+              <DrawerNav.Screen
+                name="MainStack"
+                component={MainNavigator}
+                options={{ title: "Main" }}
               />
-            </MainStack.Navigator>
+            </DrawerNav.Navigator>
           </NavigationContainer>
           <Loader />
         </MenuProvider>

@@ -10,7 +10,7 @@ import { enableLoading, disableLoadgin } from "../redux/slices";
 import { storageGetToken } from "../service/storage/token";
 import { CustomInput, CustomPicker } from "./CustomInput";
 import { CustomButton } from "./CustomButton";
-import { storageGetLocalistion } from "../service/storage/localisation";
+import { useLocalisation } from "../redux/selectors";
 import localisation from "../localisation";
 
 export const AddWordModal = ({
@@ -31,7 +31,7 @@ export const AddWordModal = ({
 
   const typesList = [{ id: -1, name: "Без типу" }, ...types];
 
-  const language = storageGetLocalistion();
+  const language = useLocalisation();
 
   const onCreate = async () => {
     dispatch(enableLoading());

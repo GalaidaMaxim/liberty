@@ -1,4 +1,5 @@
 import * as SecureStore from "expo-secure-store";
 
-SecureStore.setItem("language", "ukrainian");
+export const storateSetLocalistion = (item) =>
+  SecureStore.setItem("language", item);
 export const storageGetLocalistion = () => SecureStore.getItem("language");

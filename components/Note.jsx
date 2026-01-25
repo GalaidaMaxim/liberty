@@ -71,7 +71,7 @@ export const Note = ({ noteInfo, setNotes, setNoteToEdit }) => {
       <MenuOptions
         customStyles={{
           optionsContainer: {
-            backgroundColor: "#333",
+            backgroundColor: theme.colors.background,
             borderRadius: 8,
             marginTop: 20,
           },

@@ -1,5 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userSlice, dictionatySlice, loadginSlice, typesSlice } from "./slices";
+import {
+  userSlice,
+  dictionatySlice,
+  loadginSlice,
+  typesSlice,
+  localisationSlice,
+} from "./slices";
 
 export const store = configureStore({
   reducer: {
@@ -7,5 +13,6 @@ export const store = configureStore({
     dictionary: dictionatySlice.reducer,
     loading: loadginSlice.reducer,
     types: typesSlice.reducer,
+    localisation: localisationSlice.reducer,
   },
 });

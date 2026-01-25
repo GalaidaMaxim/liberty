@@ -8,6 +8,10 @@ import {
   deleteTypeThunk,
   changeTypeThunk,
 } from "./operations";
+import {
+  storageGetLocalistion,
+  storateSetLocalistion,
+} from "../service/storage/localisation";
 
 export const loadginSlice = createSlice({
   name: "loading",
@@ -172,5 +176,21 @@ export const typesSlice = createSlice({
   },
 });
 
+export const localisationSlice = createSlice({
+  name: "localisation",
+  initialState: {
+    value: storageGetLocalistion() || "english",
+  },
+  reducers: {
+    setLocalisation: (state, { payload }) => {
+      console.log(payload);
+
+      state.value = payload;
+      storateSetLocalistion(payload);
+    },
+  },
+});
+
 export const { setToken, setUser, removeUser } = userSlice.actions;
 export const { enableLoading, disableLoadgin } = loadginSlice.actions;
+export const { setLocalisation } = localisationSlice.actions;

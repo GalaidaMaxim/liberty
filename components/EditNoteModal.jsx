@@ -14,6 +14,8 @@ import { useTheme } from "@react-navigation/native";
 import { storageGetToken } from "../service/storage/token";
 import { enableLoading, disableLoadgin } from "../redux/slices";
 import { editNote } from "../service/API/notes";
+import { CustomInput } from "./CustomInput";
+import { CustomButton } from "./CustomButton";
 
 export const EditNoteModal = ({ open, setOpen = () => {}, setNotes }) => {
   const [name, setName] = useState("");
@@ -50,13 +52,20 @@ export const EditNoteModal = ({ open, setOpen = () => {}, setNotes }) => {
       <Pressable onPress={() => setOpen(null)} style={styles.backdrop}>
         <Pressable
           onPress={() => {}}
-          style={{ ...styles.modal, backgroundColor: theme.colors.card }}
+          style={{ ...styles.modal, backgroundColor: theme.colors.background }}
         >
           <View>
-            <Text style={{ ...styles.title, color: theme.colors.text }}>
+            <Text
+              style={{
+                ...styles.title,
+                color: theme.colors.text,
+                fontFamily: theme.fontFamily,
+              }}
+            >
               Редагувати нотатку
             </Text>
-            <TextInput
+            <CustomInput
+              placeholder={"Нотатка"}
               multiline={true}
               value={name}
               onChangeText={(text) => setName(text)}
@@ -68,7 +77,9 @@ export const EditNoteModal = ({ open, setOpen = () => {}, setNotes }) => {
               placeholderTextColor={theme.colors.placeholder}
             />
           </View>
-          <Button onPress={onAddPressed} title="Підтвердити" />
+          <CustomButton onPress={onAddPressed} title="Підтвердити">
+            Підтвердити
+          </CustomButton>
         </Pressable>
       </Pressable>
     </Modal>
@@ -83,7 +94,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modal: {
-    height: 350,
+    // height: 350,
     width: "90%",
     padding: 20,
     borderRadius: 10,
@@ -93,7 +104,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   input: {
-    marginTop: 10,
+    marginTop: 20,
+    marginBottom: 20,
     borderWidth: 1,
     height: 200,
     verticalAlign: "top",

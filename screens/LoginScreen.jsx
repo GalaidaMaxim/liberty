@@ -14,7 +14,8 @@ import { getDictionaryThunk } from "../redux/operations";
 import { useTheme } from "@react-navigation/native";
 import localisation from "../localisation";
 import { CustomButton } from "../components/CustomButton";
-import { storageGetLocalistion } from "../service/storage/localisation";
+import { useLocalisation } from "../redux/selectors";
+import { useNavigation } from "@react-navigation/native";
 
 export const LoginScreen = ({ navigation }) => {
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -25,7 +26,9 @@ export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const dispatch = useDispatch();
   const theme = useTheme();
-  const language = storageGetLocalistion();
+  const language = useLocalisation();
+
+  navigation.closeDrawer();
 
   const getUserInfo = async (token) => {
     dispatch(enableLoading());

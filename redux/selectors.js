@@ -11,3 +11,5 @@ export const useLoading = () =>
   );
 
 export const useTypes = () => useSelector((state) => state.types.value);
+export const useLocalisation = () =>
+  useSelector((state) => state.localisation.value);

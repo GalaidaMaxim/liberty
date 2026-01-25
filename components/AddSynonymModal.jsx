@@ -1,5 +1,5 @@
 import { Modal, Text, StyleSheet, View, Pressable } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { enableLoading, disableLoadgin } from "../redux/slices";
 import { storageGetToken } from "../service/storage/token";
@@ -7,6 +7,7 @@ import { useRoute } from "@react-navigation/native";
 import { useTheme } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 import { createSynonym } from "../service/API/synonyms";
+import { CustomInput } from "./CustomInput";
 
 export const AddSynonymModal = ({
   open = true,
@@ -15,9 +16,9 @@ export const AddSynonymModal = ({
   setSynonyms,
 }) => {
   const dispatch = useDispatch();
-
   const route = useRoute();
   const theme = useTheme();
+  const [filter, setFilter] = useState("");
 
   const onAddPressed = async (synonym) => {
     dispatch(enableLoading());
@@ -35,23 +36,38 @@ export const AddSynonymModal = ({
     dispatch(disableLoadgin());
   };
 
+  const line = "asd";
+  line.toLowerCase;
+
   const synonymsID = synonyms ? synonyms.map((item) => item.id) : [];
-  const words = route.params.words?.filter(
+  let words = route.params.words?.filter(
     (item) => !synonymsID.includes(item.id) && item.id !== route.params.word.id
   );
+  if (filter) {
+    words = words.filter((item) =>
+      item.word.toLowerCase().includes(filter.toLowerCase())
+    );
+  }
 
   return (
     <Modal animationType="fade" visible={open} transparent>
       <Pressable onPress={() => setOpen(false)} style={styles.backdrop}>
         <Pressable
           onPress={() => {}}
-          style={{ ...styles.modal, backgroundColor: theme.colors.card }}
+          style={{ ...styles.modal, backgroundColor: theme.colors.background }}
         >
           <View>
             <Text style={{ ...styles.title, color: theme.colors.text }}>
               Додати синонім
             </Text>
           </View>
+          <CustomInput
+            value={filter}
+            onChangeText={setFilter}
+            onReset={() => setFilter("")}
+            style={{ marginTop: 20 }}
+            placeholder={"Пошук"}
+          />
           <ScrollView>
             {words.map((item) => (
               <Pressable

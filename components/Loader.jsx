@@ -8,7 +8,7 @@ export const Loader = () => {
     <Modal visible={loadgin} transparent>
       <View style={styles.backdrop}>
         <View>
-          <ActivityIndicator size={80} />
+          <ActivityIndicator size={80} color={"#fefae3"} />
         </View>
       </View>
     </Modal>

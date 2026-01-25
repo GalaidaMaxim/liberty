@@ -29,7 +29,7 @@ import { getSynonyms, deleteSynonym } from "../service/API/synonyms";
 import { getAntonyms, deleteAntonyms } from "../service/API/antonyms";
 import { SynonymButton } from "../components/SynonymButton";
 import localisation from "../localisation";
-import { storageGetLocalistion } from "../service/storage/localisation";
+import { useLocalisation } from "../redux/selectors";
 import whiteCrost from "../assets/whiteCross.png";
 
 export const WordScreen = ({ navigation }) => {
@@ -49,7 +49,7 @@ export const WordScreen = ({ navigation }) => {
   const [nodeModal, setNoteModal] = useState(false);
 
   const dispatch = useDispatch();
-  const language = storageGetLocalistion();
+  const language = useLocalisation();
 
   useEffect(() => {
     const keyboardHideListener = Keyboard.addListener("keyboardDidHide", () => {
@@ -129,11 +129,7 @@ export const WordScreen = ({ navigation }) => {
   const onDeleteSynonym = async (synonymID) => {
     dispatch(enableLoading());
     try {
-      await deleteSynonym(
-        rou100te.params.word.id,
-        synonymID,
-        storageGetToken()
-      );
+      await deleteSynonym(route.params.word.id, synonymID, storageGetToken());
       setSynonyms((prev) => prev.filter((item) => item.id !== synonymID));
     } catch (err) {
       console.log(err);
@@ -265,53 +261,57 @@ export const WordScreen = ({ navigation }) => {
           >
             {localisation[language].synonyms}
           </Text>
-          <View style={{ ...styles.synonymButtonBlock }}>
-            <TouchableOpacity onPress={() => setSynonymModal(true)}>
-              <View
-                style={{
-                  ...styles.addSynonymButton,
-                  borderColor: theme.colors.border,
-                  backgroundColor: theme.colors.border,
-                }}
-              >
-                <Image source={whiteCrost} />
-              </View>
-            </TouchableOpacity>
-            {synonyms.map((item) => (
-              <SynonymButton
-                key={item.id}
-                synonym={item}
-                onPress={onSynonymPressed}
-                onDelete={onDeleteSynonym}
-              />
-            ))}
-          </View>
+          <ScrollView styles={{ ...styles.synonymsScroll }} horizontal>
+            <View style={{ ...styles.synonymButtonBlock }}>
+              <TouchableOpacity onPress={() => setSynonymModal(true)}>
+                <View
+                  style={{
+                    ...styles.addSynonymButton,
+                    borderColor: theme.colors.border,
+                    backgroundColor: theme.colors.border,
+                  }}
+                >
+                  <Image source={whiteCrost} />
+                </View>
+              </TouchableOpacity>
+              {synonyms.map((item) => (
+                <SynonymButton
+                  key={item.id}
+                  synonym={item}
+                  onPress={onSynonymPressed}
+                  onDelete={onDeleteSynonym}
+                />
+              ))}
+            </View>
+          </ScrollView>
         </View>
         <View style={{ ...styles.synonymBlock }}>
           <Text style={{ ...styles.synonymTytle, color: theme.colors.text }}>
             {localisation[language].antonym}
           </Text>
-          <View style={{ ...styles.synonymButtonBlock }}>
-            <TouchableOpacity onPress={() => setAntonymModal(true)}>
-              <View
-                style={{
-                  ...styles.addSynonymButton,
-                  borderColor: theme.colors.border,
-                  backgroundColor: theme.colors.border,
-                }}
-              >
-                <Image source={whiteCrost} />
-              </View>
-            </TouchableOpacity>
-            {antonyms.map((item) => (
-              <SynonymButton
-                key={item.id}
-                synonym={item}
-                onPress={onSynonymPressed}
-                onDelete={onDeleteAntonym}
-              />
-            ))}
-          </View>
+          <ScrollView styles={{ ...styles.synonymsScroll }} horizontal>
+            <View style={{ ...styles.synonymButtonBlock }}>
+              <TouchableOpacity onPress={() => setAntonymModal(true)}>
+                <View
+                  style={{
+                    ...styles.addSynonymButton,
+                    borderColor: theme.colors.border,
+                    backgroundColor: theme.colors.border,
+                  }}
+                >
+                  <Image source={whiteCrost} />
+                </View>
+              </TouchableOpacity>
+              {antonyms.map((item) => (
+                <SynonymButton
+                  key={item.id}
+                  synonym={item}
+                  onPress={onSynonymPressed}
+                  onDelete={onDeleteAntonym}
+                />
+              ))}
+            </View>
+          </ScrollView>
         </View>
       </ScrollView>
       <AddNoteModal
@@ -401,9 +401,11 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
   },
+  synonymsScroll: {},
   synonymButtonBlock: {
     marginTop: 20,
     flexDirection: "row",
+    height: 40,
     gap: 10,
   },
   synonymTytle: {

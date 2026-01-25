@@ -14,6 +14,8 @@ import { enableLoading, disableLoadgin } from "../redux/slices";
 import { storageGetToken } from "../service/storage/token";
 import { useRoute } from "@react-navigation/native";
 import { useTheme } from "@react-navigation/native";
+import { CustomInput } from "./CustomInput";
+import { CustomButton } from "./CustomButton";
 
 export const AddNoteModal = ({ open = true, setOpen = () => {}, addNote }) => {
   const [name, setName] = useState("");
@@ -47,13 +49,20 @@ export const AddNoteModal = ({ open = true, setOpen = () => {}, addNote }) => {
       <Pressable onPress={() => setOpen(false)} style={styles.backdrop}>
         <Pressable
           onPress={() => {}}
-          style={{ ...styles.modal, backgroundColor: theme.colors.card }}
+          style={{ ...styles.modal, backgroundColor: theme.colors.background }}
         >
           <View>
-            <Text style={{ ...styles.title, color: theme.colors.text }}>
+            <Text
+              style={{
+                ...styles.title,
+                color: theme.colors.text,
+                fontFamily: theme.fontFamily,
+              }}
+            >
               Додати нотатку
             </Text>
-            <TextInput
+            <CustomInput
+              placeholder={"Нотатка"}
               multiline={true}
               value={name}
               onChangeText={(text) => setName(text)}
@@ -65,7 +74,9 @@ export const AddNoteModal = ({ open = true, setOpen = () => {}, addNote }) => {
               placeholderTextColor={theme.colors.placeholder}
             />
           </View>
-          <Button onPress={onAddPressed} title="Додати" />
+          <CustomButton onPress={onAddPressed} title="Додати">
+            Додати
+          </CustomButton>
         </Pressable>
       </Pressable>
     </Modal>
@@ -80,7 +91,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modal: {
-    height: 350,
     width: "90%",
     padding: 20,
     borderRadius: 10,
@@ -90,7 +100,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   input: {
-    marginTop: 10,
+    marginTop: 20,
+    marginBottom: 20,
     borderWidth: 1,
     height: 200,
     verticalAlign: "top",

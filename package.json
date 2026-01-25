@@ -13,6 +13,8 @@
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-google-signin/google-signin": "^15.0.0",
     "@react-native-menu/menu": "^1.2.3",
+    "@react-native-picker/picker": "2.11.1",
+    "@react-navigation/drawer": "^7.7.13",
     "@react-navigation/native": "^7.1.14",
     "@react-navigation/stack": "^7.4.2",
     "@reduxjs/toolkit": "^2.8.2",
@@ -20,6 +22,7 @@
     "expo": "~53.0.17",
     "expo-auth-session": "~6.2.1",
     "expo-dev-client": "~5.2.4",
+    "expo-font": "~13.3.2",
     "expo-secure-store": "~14.2.3",
     "expo-status-bar": "~2.2.3",
     "expo-system-ui": "~5.0.10",
@@ -32,9 +35,7 @@
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "~4.11.1",
     "react-native-vector-icons": "^10.2.0",
-    "react-redux": "^9.2.0",
-    "@react-native-picker/picker": "2.11.1",
-    "expo-font": "~13.3.2"
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

@@ -34,6 +34,7 @@ export const Outlet = ({ children, navigation }) => {
       })
     );
   };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {user && (
@@ -60,7 +61,9 @@ export const Outlet = ({ children, navigation }) => {
           <Text style={{ ...styles.logo, fontFamily: theme.fontFamily }}>
             Lexigo
           </Text>
-          <Image source={burger} />
+          <Pressable onPress={() => nav.openDrawer()}>
+            <Image source={burger} />
+          </Pressable>
         </View>
       )}
       {children}
