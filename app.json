@@ -1,27 +1,27 @@
 {
   "expo": {
-    "name": "liberty",
-    "slug": "liberty",
-    "version": "1.0.0",
-    "scheme": "com.galaida.liberty",
+    "name": "lexigo",
+    "slug": "lexigo",
+    "version": "0.8.0",
+    "scheme": "com.galaida.lexigo",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "sdkVersion": "53.0.0",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.galaida.liberty"
+      "bundleIdentifier": "com.galaida.lexigo"
     },
     "android": {
-      "package": "com.galaida.liberty",
+      "package": "com.galaida.lexigo",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
@@ -31,14 +31,10 @@
     },
     "extra": {
       "eas": {
-        "projectId": "497653a7-d345-47ee-bdba-4e73f17f7ffa"
+        "projectId": "0d7507d5-1775-4224-97d8-c88a4ff47dfc"
       }
     },
     "owner": "galaida",
-    "plugins": [
-      "expo-web-browser",
-      "expo-secure-store",
-      "expo-font"
-    ]
+    "plugins": ["expo-web-browser", "expo-secure-store", "expo-font"]
   }
 }
