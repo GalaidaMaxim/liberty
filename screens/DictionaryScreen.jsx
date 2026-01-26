@@ -82,11 +82,17 @@ export const DictionaryScreen = () => {
 				<TouchableHighlight
 					style={{
 						...styles.blueButton,
-						...(selectedType ? {} : styles.highlited),
-						backgroundColor: theme.colors.border,
+						backgroundColor: selectedType
+							? theme.colors.border
+							: theme.colors.background,
 					}}
 					onPress={() => setSelectedType(null)}>
-					<Text style={{ ...styles.buttonText, fontFamily: theme.fontFamily }}>
+					<Text
+						style={{
+							...styles.buttonText,
+							fontFamily: theme.fontFamily,
+							color: selectedType ? theme.colors.lightText : theme.colors.text,
+						}}>
 						{localisation[language].all}
 					</Text>
 				</TouchableHighlight>
@@ -173,6 +179,8 @@ const styles = StyleSheet.create({
 	highlited: {
 		outlineColor: "rgba(137,108,50,0.87)",
 		outlineWidth: 2,
+		borderColor: "#493639",
+		backgroundColor: "#fefae3",
 	},
 	aboluteViev: {
 		position: "absolute",
