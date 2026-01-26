@@ -59,7 +59,7 @@ export const AddSynonymModal = ({
 					onPress={() => {}}
 					style={{ ...styles.modal, backgroundColor: theme.colors.background }}>
 					<View>
-						<Text style={{ ...styles.title, color: theme.colors.text }}>
+						<Text style={{ ...styles.title, color: theme.colors.text, fontFamily: theme.fontFamily }}>
 							{localisation[language].addSynonym}
 						</Text>
 					</View>

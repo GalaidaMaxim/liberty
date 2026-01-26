@@ -37,7 +37,7 @@ export const CustomInput = ({
       <Text
         style={{
           ...styles.text,
-
+          fontFamily: theme.fontFamily,
           color: theme.colors.lightText,
         }}
       >
@@ -64,7 +64,7 @@ export const CustomPicker = ({
       <Text
         style={{
           ...styles.text,
-
+          fontFamily: theme.fontFamily,
           color: theme.colors.lightText,
         }}
       >
