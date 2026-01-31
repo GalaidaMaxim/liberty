@@ -47,7 +47,7 @@ export const EditTypeModal = ({
 					onPress={() => {}}
 					style={{ ...styles.modal, backgroundColor: theme.colors.card }}>
 					<View>
-						<Text style={{ ...styles.title, color: theme.colors.text }}>
+						<Text style={{ ...styles.title, color: theme.colors.text, fontFamily: theme.fontFamily }}>
 							{localisation[language].editType}
 						</Text>
 						<TextInput

@@ -44,7 +44,7 @@ export const AddTypeModal = ({ open = true, setOpen = () => {} }) => {
 					onPress={() => {}}
 					style={{ ...styles.modal, backgroundColor: theme.colors.background }}>
 					<View style={{ ...styles.mainView }}>
-						<Text style={{ ...styles.title, color: theme.colors.text }}>
+						<Text style={{ ...styles.title, color: theme.colors.text, fontFamily: theme.fontFamily }}>
 							{localisation[language].addCategory}
 						</Text>
 						<CustomInput

@@ -233,7 +233,10 @@ export const WordScreen = ({ navigation }) => {
 					</View>
 					{notes.length === 0 ? (
 						<View style={styles.noNotesView}>
-							<Text style={styles.noNotesText}>
+							<Text style={{
+								...styles.noNotesText,
+								fontFamily: theme.fontFamily,
+							}}>
 								{localisation[language].noNotes}
 							</Text>
 						</View>
@@ -281,7 +284,12 @@ export const WordScreen = ({ navigation }) => {
 					</ScrollView>
 				</View>
 				<View style={{ ...styles.synonymBlock }}>
-					<Text style={{ ...styles.synonymTytle, color: theme.colors.text }}>
+					<Text
+						style={{
+							...styles.synonymTytle,
+							color: theme.colors.text,
+							fontFamily: theme.fontFamily,
+						}}>
 						{localisation[language].antonym}
 					</Text>
 					<ScrollView styles={{ ...styles.synonymsScroll }} horizontal>

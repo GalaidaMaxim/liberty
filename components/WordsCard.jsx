@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
 	},
 	word: {
 		fontSize: 20,
+		lineHeight: 24,
 	},
-	translation: { fontSize: 20, color: "rgba(73, 54, 57, 0.6)" },
+	translation: { fontSize: 20, color: "rgba(73, 54, 57, 0.6)", lineHeight: 24 },
 });
